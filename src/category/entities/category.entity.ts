@@ -1,9 +1,12 @@
-import { User } from 'src/user/entities/user.entity';
+import { Transaction } from '../../transaction/entities/transaction.entity';
+import { User } from '../../user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,7 +16,7 @@ export class Category {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column()
   title: string;
 
   @CreateDateColumn()
@@ -23,5 +26,9 @@ export class Category {
   updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.categories)
-  user: User;
+  @JoinColumn({ name: 'user_id' })
+  users: User;
+
+  @OneToMany(() => Transaction, (transaction) => transaction.category)
+  transactions: Transaction[];
 }

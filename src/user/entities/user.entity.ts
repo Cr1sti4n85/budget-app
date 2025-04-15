@@ -1,4 +1,5 @@
-import { Category } from 'src/category/entities/category.entity';
+import { Category } from '../../category/entities/category.entity';
+import { Transaction } from '../../transaction/entities/transaction.entity';
 import {
   Column,
   CreateDateColumn,
@@ -28,6 +29,11 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Category, (cat) => cat.user)
+  @OneToMany(() => Category, (cat) => cat.users, { onDelete: 'CASCADE' })
   categories: Category[];
+
+  @OneToMany(() => Transaction, (transaction) => transaction.users, {
+    onDelete: 'CASCADE',
+  })
+  transactions: Transaction[];
 }
