@@ -1,6 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcryptjs';
+import { User } from '../user/entities/user.entity';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -20,5 +22,9 @@ export class AuthService {
     } catch (error) {
       throw new UnauthorizedException('Invalid credentials');
     }
+  }
+
+  async login(user: User, res: Response) {
+    return 'holaaaaaaaaaaaaaaaa';
   }
 }
