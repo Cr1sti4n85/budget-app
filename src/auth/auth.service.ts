@@ -48,7 +48,7 @@ export class AuthService {
     );
 
     const tokenPayload: TokenPayload = {
-      userId: user._id,
+      userId: user.id,
     };
 
     const accessToken = this.jwtService.sign(tokenPayload, {
@@ -78,5 +78,15 @@ export class AuthService {
           this.configService.getOrThrow<string>('NODE_ENV') === 'production',
         expires: expiresRefreshToken,
       });
+  }
+
+  async verifyUserRefreshToken(refreshToken: string, userId: string) {
+    try {
+      const user = await this.userService.getUser({ id: userId });
+
+      return user;
+    } catch (error) {
+      throw new UnauthorizedException('Refresh token is not valid.');
+    }
   }
 }
