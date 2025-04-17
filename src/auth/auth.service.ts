@@ -79,14 +79,4 @@ export class AuthService {
         expires: expiresRefreshToken,
       });
   }
-
-  async verifyUserRefreshToken(refreshToken: string, userId: string) {
-    try {
-      const user = await this.userService.getUser({ id: userId });
-
-      return user;
-    } catch (error) {
-      throw new UnauthorizedException('Refresh token is not valid.');
-    }
-  }
 }

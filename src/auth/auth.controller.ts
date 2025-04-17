@@ -5,6 +5,7 @@ import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from '../types/user.types';
 import { Request, Response } from 'express';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -17,5 +18,14 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     return this.authService.login(user, res);
+  }
+
+  @Post('refresh')
+  @UseGuards(JwtRefreshAuthGuard)
+  async refreshToken(
+    @CurrentUser() user: User,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    await this.authService.login(user, res);
   }
 }
