@@ -1,11 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Category } from './entities/category.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(
+    @InjectRepository(Category)
+    private readonly categoryRepo: Repository<Category>,
+  ) {}
+  async create(createCategoryDto: CreateCategoryDto, userId: number) {
+    const existCategory = await this.categoryRepo.findBy({
+      users: { id: userId },
+      title: createCategoryDto.title,
+    });
+
+    if (existCategory.length > 0) {
+      throw new BadRequestException('Category already exists.');
+    }
+
+    const newCategory = this.categoryRepo.create({
+      title: createCategoryDto.title,
+      users: { id: userId },
+    });
+
+    return await this.categoryRepo.save(newCategory);
   }
 
   findAll() {

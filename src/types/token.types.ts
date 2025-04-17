@@ -1,3 +1,3 @@
 export type TokenPayload = {
-  userId: string;
+  userId: number;
 };

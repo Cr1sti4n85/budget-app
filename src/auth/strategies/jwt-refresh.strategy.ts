@@ -4,7 +4,6 @@ import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { TokenPayload } from '../../types/token.types';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthService } from '../auth.service';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -21,7 +20,6 @@ export class JwtRefreshStrategy extends PassportStrategy(
         (request: Request) => request.cookies?.Refresh,
       ]),
       secretOrKey: configService.getOrThrow('JWT_REFRESH_SECRET'),
-      // passReqToCallback: true,
     });
   }
 
