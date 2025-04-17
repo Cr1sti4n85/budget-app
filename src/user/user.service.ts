@@ -28,8 +28,8 @@ export class UserService {
     return await this.userRepo.save(newUser);
   }
 
-  async getUser(email: string) {
-    const user = await this.userRepo.findOne({ where: { email } });
+  async getUser(query: Record<string, unknown>) {
+    const user = await this.userRepo.findOne({ where: query });
 
     if (!user) {
       throw new NotFoundException('User not found');
