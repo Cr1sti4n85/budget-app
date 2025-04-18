@@ -8,6 +8,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
+import { instanceToPlain } from 'class-transformer';
 
 @Injectable()
 export class CategoryService {
@@ -56,14 +57,32 @@ export class CategoryService {
     if (!category) {
       throw new NotFoundException('Category not found');
     }
+    return instanceToPlain(category);
+  }
+
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+    const category = await this.categoryRepo.findOne({
+      where: { id },
+    });
+
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+
+    category.title = updateCategoryDto.title!;
+
+    await this.categoryRepo.save(category);
     return category;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
-  }
+  async remove(id: number) {
+    const category = await this.categoryRepo.findOne({
+      where: { id },
+    });
+    if (!category) {
+      throw new NotFoundException('User not found');
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+    return this.categoryRepo.remove(category);
   }
 }
