@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Transaction } from '../transaction/entities/transaction.entity';
 import { instanceToPlain } from 'class-transformer';
+import { PaginationDto } from '../common/dto/pagination.dto';
 
 @Injectable()
 export class TransactionService {
@@ -44,6 +45,22 @@ export class TransactionService {
     return transactions;
   }
 
+  async findAllPaginated(userId: number, paginationDto: PaginationDto) {
+    const { limit = 10, page = 1 } = paginationDto;
+    const transactions = await this.transactionRepo.find({
+      where: { users: { id: userId } },
+      order: { createdAt: 'DESC' },
+      relations: {
+        category: true,
+        users: true,
+      },
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+
+    return instanceToPlain(transactions);
+  }
+
   async findOne(id: number, userId: number) {
     const foundTransaction = await this.transactionRepo.findOne({
       where: {
@@ -62,11 +79,28 @@ export class TransactionService {
     return instanceToPlain(foundTransaction);
   }
 
-  update(id: number, updateTransactionDto: UpdateTransactionDto) {
-    return `This action updates a #${id} transaction`;
+  async update(id: number, updateTransactionDto: UpdateTransactionDto) {
+    const foundTransaction = await this.transactionRepo.findOne({
+      where: { id },
+    });
+
+    if (!foundTransaction) {
+      throw new NotFoundException('No se encontró esta transacción.');
+    }
+    const updatedTransaction = Object.assign(foundTransaction, {
+      ...updateTransactionDto,
+    });
+    return await this.transactionRepo.save(updatedTransaction);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} transaction`;
+  async remove(id: number) {
+    const transaction = await this.transactionRepo.findOne({
+      where: { id },
+    });
+    if (!transaction) {
+      throw new NotFoundException('User not found');
+    }
+
+    return this.transactionRepo.remove(transaction);
   }
 }
