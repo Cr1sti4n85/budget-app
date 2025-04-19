@@ -19,10 +19,10 @@ export class Category {
   @Column()
   title: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.categories)

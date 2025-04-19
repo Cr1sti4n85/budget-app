@@ -29,13 +29,15 @@ export class TransactionController {
   }
 
   @Get()
-  findAll() {
-    return this.transactionService.findAll();
+  @UseGuards(JwtAuthGuard)
+  findAll(@CurrentUser() user: User) {
+    return this.transactionService.findAll(user.id);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.transactionService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  findOne(@CurrentUser() user: User, @Param('id') id: string) {
+    return this.transactionService.findOne(+id, user.id);
   }
 
   @Patch(':id')
