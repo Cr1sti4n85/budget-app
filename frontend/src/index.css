@@ -1,0 +1,78 @@
+@import 'tailwindcss';
+
+@layer base {
+  body {
+    font-size: var(--text-sm);
+  }
+  td {
+    text-transform: capitalize;
+    color: color-mix(in oklab, var(--color-white) 70%, transparent);
+  }
+
+  thead td {
+    color: var(--color-white);
+  }
+}
+
+@layer components {
+  .btn {
+    display: flex;
+    gap: calc(var(--spacing) * 2);
+    align-items: center;
+    color: var(--color-white);
+    padding-block: calc(var(--spacing) * 2);
+    border-radius: var(--radius-md);
+  }
+
+  @property --tw-border-opacity {
+    syntax: '*';
+    inherits: false;
+    initial-value: solid;
+  }
+
+  @property --tw-outline-style {
+    syntax: '*';
+    inherits: false;
+    initial-value: solid;
+  }
+  .input {
+    background-color: transparent;
+    padding: calc(var(--spacing) * 2);
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+    border-color: var(--color-slate-800);
+    background-color: var(--color-slate-700);
+    background-color: transparent;
+    --tw-outline-style: none;
+    outline-style: none;
+    &::placeholder {
+      color: var(--color-white);
+    }
+    &:focus {
+      border-color: var(--color-slate-300);
+    }
+  }
+  .container {
+    max-width: 1000px;
+  }
+}
+
+@layer utilities {
+  .btn-red {
+    background-color: var(--color-rose-900);
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-rose-800);
+      }
+    }
+  }
+
+  .btn-green {
+    background-color: var(--color-green-600);
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-green-800);
+      }
+    }
+  }
+}
