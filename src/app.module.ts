@@ -8,6 +8,8 @@ import { TransactionModule } from './transaction/transaction.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_PIPE } from '@nestjs/core';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'node:path';
 
 @Module({
   imports: [
@@ -25,7 +27,9 @@ import { APP_PIPE } from '@nestjs/core';
       }),
       inject: [ConfigService],
     }),
-
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'frontend/dist'),
+    }),
     UserModule,
     CategoryModule,
     AuthModule,
