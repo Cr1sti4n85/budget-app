@@ -40,10 +40,10 @@ export class TransactionController {
     return this.transactionService.findAllPaginated(user.id, paginationDto);
   }
 
-  @Get()
+  @Get('type/:type')
   @UseGuards(JwtAuthGuard)
-  findAll(@CurrentUser() user: User) {
-    return this.transactionService.findAll(user.id);
+  findByType(@CurrentUser() user: User, @Param('type') type: string) {
+    return this.transactionService.findByType(user.id, type);
   }
 
   @Get(':id')
