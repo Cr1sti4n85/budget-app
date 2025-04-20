@@ -39,6 +39,7 @@ export class TransactionService {
       order: { createdAt: 'DESC' },
       relations: {
         category: true,
+        users: true,
       },
     });
 
@@ -61,11 +62,10 @@ export class TransactionService {
     return instanceToPlain(transactions);
   }
 
-  async findOne(id: number, userId: number) {
+  async findOne(id: number) {
     const foundTransaction = await this.transactionRepo.findOne({
       where: {
         id,
-        users: { id: userId },
       },
       relations: {
         category: true,

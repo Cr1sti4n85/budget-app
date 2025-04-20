@@ -15,7 +15,8 @@ import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { User } from '../types/user.types';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginationDto } from '../common/dto/pagination.dto';
+import { OwnerGuard } from '../common/guards/owner.guard';
 
 @Controller('transaction')
 export class TransactionController {
@@ -46,13 +47,13 @@ export class TransactionController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
-  findOne(@CurrentUser() user: User, @Param('id') id: string) {
-    return this.transactionService.findOne(+id, user.id);
+  @UseGuards(JwtAuthGuard, OwnerGuard)
+  findOne(@Param('id') id: string) {
+    return this.transactionService.findOne(+id);
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, OwnerGuard)
   update(
     @Param('id') id: string,
     @Body() updateTransactionDto: UpdateTransactionDto,
@@ -61,7 +62,7 @@ export class TransactionController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, OwnerGuard)
   remove(@Param('id') id: string) {
     return this.transactionService.remove(+id);
   }
