@@ -26,12 +26,12 @@ export const Header: FC = () => {
             </li>
             <li>
               <NavLink to="/transactions" className={handleActive}>
-                Transactions
+                Transacciones
               </NavLink>
             </li>
             <li>
               <NavLink to="/categories" className={handleActive}>
-                Categories
+                Categorias
               </NavLink>
             </li>
           </ul>
@@ -39,7 +39,7 @@ export const Header: FC = () => {
       )}
       {isAuth ? (
         <button className="btn btn-red">
-          <span>Log Out</span>
+          <span>Cerrar sesión</span>
           <FaSignOutAlt />
         </button>
       ) : (
@@ -47,7 +47,7 @@ export const Header: FC = () => {
           to="/auth"
           className="py-2 text-white/50 hover:text-white ml-auto mr-10"
         >
-          Sign In
+          Iniciar sesión
         </Link>
       )}
     </header>
