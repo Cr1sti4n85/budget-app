@@ -1,10 +1,27 @@
+import { useMutation } from '@tanstack/react-query';
 import { FC, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { register } from '../utils/api';
 
 const Auth: FC = () => {
+  const navigate = useNavigate();
+
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
+
+  const {
+    mutate: createAccount,
+    isPending,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: register,
+    onSuccess: () => {
+      navigate('/', { replace: true });
+    },
+  });
   return (
     <div
       className="mt-40 flex flex-col items-center justify-center 
@@ -40,9 +57,14 @@ const Auth: FC = () => {
             <button
               className={`btn btn-green mx-auto ${(!email || !password || password !== confirmPassword) && 'cursor-not-allowed'}`}
               disabled={!email || !password || password !== confirmPassword}
+              onClick={(e) => {
+                e.preventDefault();
+                createAccount({ email, password, confirmPassword });
+              }}
             >
               Registrarse
             </button>
+            {isError && <p> {error.message}</p>}
           </>
         ) : (
           <button
