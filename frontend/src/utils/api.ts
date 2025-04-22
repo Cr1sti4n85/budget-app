@@ -12,7 +12,7 @@ interface RegisterData extends LoginData {
 }
 
 export const login = async (data: LoginData): Promise<AxiosResponse> =>
-  API.post('/auth/login', data);
+  API.post('/auth/signin', data);
 
 export const register = async (data: RegisterData): Promise<AxiosResponse> =>
   API.post('/user', data);

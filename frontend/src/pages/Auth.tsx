@@ -1,7 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { register } from '../utils/api';
+import { FaSpinner } from 'react-icons/fa6';
+import { login, register } from '../utils/api';
+import { toast } from 'react-toastify';
 
 const Auth: FC = () => {
   const navigate = useNavigate();
@@ -11,17 +13,42 @@ const Auth: FC = () => {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
 
-  const {
-    mutate: createAccount,
-    isPending,
-    isError,
-    error,
-  } = useMutation({
-    mutationFn: register,
+  const { mutate: signIn, isPending: isSigningIn } = useMutation({
+    mutationFn: login,
     onSuccess: () => {
+      toast.success('Ha iniciado sesión correctamente');
       navigate('/', { replace: true });
     },
+    onError: (error) => {
+      if (error) {
+        console.log(typeof error);
+        if (typeof error.message === 'string') {
+          toast.error(error.message);
+        } else {
+          toast.error(error.message[0]);
+        }
+      }
+    },
   });
+
+  const { mutate: createAccount, isPending: isRegistering } = useMutation({
+    mutationFn: register,
+
+    onSuccess: () => {
+      toast.success('Usuario creado con éxito');
+      navigate('/login', { replace: true });
+    },
+    onError: (error) => {
+      if (error) {
+        if (typeof error.message === 'string') {
+          toast.error(error.message);
+        } else {
+          toast.error(error.message[0]);
+        }
+      }
+    },
+  });
+
   return (
     <div
       className="mt-40 flex flex-col items-center justify-center 
@@ -32,7 +59,7 @@ const Auth: FC = () => {
       </h1>
       <form className="flex w-1/3 flex-col mx-auto gap-5">
         <input
-          type="text"
+          type="email"
           value={email}
           className="input"
           placeholder="Email"
@@ -62,16 +89,35 @@ const Auth: FC = () => {
                 createAccount({ email, password, confirmPassword });
               }}
             >
-              Registrarse
+              {isRegistering ? (
+                <>
+                  {' '}
+                  <FaSpinner className="animate-spin text-2xl" />
+                  Cargando
+                </>
+              ) : (
+                'Registrarse'
+              )}
             </button>
-            {isError && <p> {error.message}</p>}
           </>
         ) : (
           <button
             className={`btn btn-green mx-auto ${(!email || !password) && 'cursor-not-allowed'}`}
             disabled={!email || !password}
+            onClick={(e) => {
+              e.preventDefault();
+              signIn({ email, password });
+            }}
           >
-            Enviar
+            {isSigningIn ? (
+              <>
+                {' '}
+                <FaSpinner className="animate-spin text-2xl" />
+                Cargando
+              </>
+            ) : (
+              'Iniciar sesión'
+            )}
           </button>
         )}
       </form>
