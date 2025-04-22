@@ -16,25 +16,42 @@ const Auth: FC = () => {
       <form className="flex w-1/3 flex-col mx-auto gap-5">
         <input
           type="text"
+          value={email}
           className="input"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
+          value={password}
           className="input"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        {!isLoggedIn && (
-          <input
-            type="password"
-            className="input"
-            placeholder="Confirmar password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
+        {!isLoggedIn ? (
+          <>
+            <input
+              type="password"
+              value={confirmPassword}
+              className="input"
+              placeholder="Confirmar password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <button
+              className={`btn btn-green mx-auto ${(!email || !password || password !== confirmPassword) && 'cursor-not-allowed'}`}
+              disabled={!email || !password || password !== confirmPassword}
+            >
+              Registrarse
+            </button>
+          </>
+        ) : (
+          <button
+            className={`btn btn-green mx-auto ${(!email || !password) && 'cursor-not-allowed'}`}
+            disabled={!email || !password}
+          >
+            Enviar
+          </button>
         )}
-        <button className="btn btn-green mx-auto">Enviar</button>
       </form>
       <div className="flex justify-center mt-5">
         {isLoggedIn ? (
@@ -46,7 +63,10 @@ const Auth: FC = () => {
           </button>
         ) : (
           <button
-            onClick={() => setIsLoggedIn(!isLoggedIn)}
+            onClick={() => {
+              setIsLoggedIn(!isLoggedIn);
+              setConfirmPassword('');
+            }}
             className="text-slate-300 hover:text-white"
           >
             ¿Ya tienes cuenta?
