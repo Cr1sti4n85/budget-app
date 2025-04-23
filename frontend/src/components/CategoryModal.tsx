@@ -1,4 +1,7 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { createCategory } from '../utils/api';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 type Props = {
   type: 'post' | 'patch';
@@ -7,6 +10,25 @@ type Props = {
 };
 
 const CategoryModal: FC<Props> = ({ type, id = 0, setVisibleModal }) => {
+  const [title, setTitle] = useState<string>('');
+
+  const { mutate: addTitle, isPending } = useMutation({
+    mutationFn: createCategory,
+    onSuccess: () => {
+      toast.success('Categoría creada con éxito');
+      setVisibleModal(false);
+    },
+    onError: (error) => {
+      if (error) {
+        if (typeof error.message === 'string') {
+          toast.error(error.message);
+        } else {
+          toast.error(error.message[0]);
+        }
+      }
+    },
+  });
+
   return (
     <div
       className="fixed top-0 right-0 left-0 bottom-0 w-full h-full
@@ -20,10 +42,20 @@ const CategoryModal: FC<Props> = ({ type, id = 0, setVisibleModal }) => {
             type="text"
             name="title"
             placeholder="Título..."
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
           />
         </label>
         <div className="flex items-center gap-2">
-          <button type="submit" className="btn btn-green">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              addTitle({ title });
+            }}
+            disabled={isPending}
+            type="submit"
+            className="btn btn-green"
+          >
             {type === 'patch' ? 'Guardar' : 'Crear'}
           </button>
           <button

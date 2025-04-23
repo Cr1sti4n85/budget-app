@@ -23,7 +23,7 @@ export class CategoryService {
     });
 
     if (existCategory.length > 0) {
-      throw new BadRequestException('Category already exists.');
+      throw new BadRequestException('Esa categoría ya existe.');
     }
 
     const newCategory = this.categoryRepo.create({
@@ -55,7 +55,7 @@ export class CategoryService {
     });
 
     if (!category) {
-      throw new NotFoundException('Category not found');
+      throw new NotFoundException('No se encontró esa categoría');
     }
     return instanceToPlain(category);
   }
@@ -66,7 +66,7 @@ export class CategoryService {
     });
 
     if (!category) {
-      throw new NotFoundException('Category not found');
+      throw new NotFoundException('No se encontró esa categoría');
     }
 
     category.title = updateCategoryDto.title!;
@@ -80,7 +80,7 @@ export class CategoryService {
       where: { id },
     });
     if (!category) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Categoría no encontrada.');
     }
 
     return this.categoryRepo.remove(category);

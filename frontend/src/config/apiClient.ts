@@ -24,6 +24,7 @@ API.interceptors.response.use(
   (response) => response.data, //in case of success we return response.data
   async (error: AxiosError) => {
     const { config, response } = error;
+    console.log('error del bad request', error);
     if (!response) return Promise.reject(error);
     const { data, status } = response as AxiosResponse; //Error response from api
 

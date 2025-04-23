@@ -6,6 +6,7 @@ import CategoryModal from '../components/CategoryModal';
 
 const Categories: FC = () => {
   const [visibleModal, setVisibleModal] = useState<boolean>(false);
+  const [type, setType] = useState<'post' | 'patch'>('post');
   return (
     <>
       <div className="mt-10 rounded-md bg-slate-800 p-4">
@@ -17,7 +18,7 @@ const Categories: FC = () => {
               className="hidden absolute px-3 left-0 top-0 bottom-0 
           right-0 rounded-lg bg-black/90 items-center justify-between group-hover:flex"
             >
-              <button>
+              <button onClick={() => setType('patch')}>
                 <AiFillEdit className="cursor-pointer" />
               </button>
               <Form className="flex" method="delete" action="/category">
@@ -32,7 +33,10 @@ const Categories: FC = () => {
 
         {/* Add category */}
         <button
-          onClick={() => setVisibleModal(!visibleModal)}
+          onClick={() => {
+            setType('post');
+            setVisibleModal(!visibleModal);
+          }}
           className="mt-5 flex max-w-fit items-center gap-2
        text-white/50 hover:text-white cursor-pointer"
         >
@@ -43,7 +47,7 @@ const Categories: FC = () => {
 
       {/* Create Modal */}
       {visibleModal && (
-        <CategoryModal type="post" id={1} setVisibleModal={setVisibleModal} />
+        <CategoryModal type={type} id={1} setVisibleModal={setVisibleModal} />
       )}
     </>
   );
