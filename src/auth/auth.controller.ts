@@ -20,7 +20,7 @@ export class AuthController {
     return this.authService.login(user, res);
   }
 
-  @Post('refresh')
+  @Get('refresh')
   @UseGuards(JwtRefreshAuthGuard)
   async refreshToken(
     @CurrentUser() user: User,

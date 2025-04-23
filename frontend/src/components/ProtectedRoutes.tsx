@@ -13,7 +13,7 @@ const ProtectedRoutes: FC<Props> = ({ children }) => {
     <>
       {isLoading ? (
         <div className="flex items-center justify-center h-screen">
-          <div className="loader"></div>
+          <span className="loader"></span>
         </div>
       ) : user ? (
         children

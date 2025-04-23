@@ -36,8 +36,8 @@ API.interceptors.response.use(
         }
       } catch {
         queryClient.clear();
-        //redirect to login page
-        window.location.href = 'http://localhost:5173/auth';
+        // redirect to login page
+        window.location.href = '/auth';
       }
     }
 
