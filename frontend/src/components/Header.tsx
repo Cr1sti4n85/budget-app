@@ -1,9 +1,11 @@
 import { FC } from 'react';
 import { Link, NavLink } from 'react-router';
 import { FaBtc, FaSignOutAlt } from 'react-icons/fa';
+import useAuth from '../hooks/useAuth';
 
 export const Header: FC = () => {
-  const isAuth = false;
+  const { user } = useAuth();
+  const isAuth = user !== null;
 
   const handleActive = ({ isActive }: { isActive: boolean }): string => {
     return isActive ? 'text-white' : 'text-white/50';

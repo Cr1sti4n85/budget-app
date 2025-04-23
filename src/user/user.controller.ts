@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { User } from 'src/types/user.types';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { instanceToPlain } from 'class-transformer';
 
 @Controller('user')
 export class UserController {
@@ -17,6 +18,6 @@ export class UserController {
   @Get('profile')
   @UseGuards(JwtAuthGuard)
   getProfile(@CurrentUser() user: User) {
-    return user;
+    return instanceToPlain(user);
   }
 }

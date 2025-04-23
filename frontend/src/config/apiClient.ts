@@ -28,7 +28,7 @@ API.interceptors.response.use(
     const { data, status } = response as AxiosResponse; //Error response from api
 
     //try to refresh access token
-    if (status === 401 && data?.errorCode === 'InvalidAccessToken') {
+    if (status === 401 && data?.message === 'No auth token') {
       try {
         await TokenRefreshClient.get('/auth/refresh');
         if (config) {
@@ -36,6 +36,8 @@ API.interceptors.response.use(
         }
       } catch {
         queryClient.clear();
+        //redirect to login page
+        window.location.href = 'http://localhost:5173/auth';
       }
     }
 

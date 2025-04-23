@@ -27,7 +27,7 @@ export class AuthService {
 
       return user;
     } catch (error) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Las credenciales no son válidas');
     }
   }
 

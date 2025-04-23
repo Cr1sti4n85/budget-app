@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import Transactions from '../pages/Transactions';
 import Categories from '../pages/Categories';
 import Auth from '../pages/Auth';
+// import ProtectedRoutes from '../components/ProtectedRoutes';
 
 export const router = createBrowserRouter([
   {
@@ -16,10 +17,7 @@ export const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-      {
-        path: 'auth',
-        element: <Auth />,
-      },
+
       {
         path: 'transactions',
         element: <Transactions />,
@@ -29,5 +27,9 @@ export const router = createBrowserRouter([
         element: <Categories />,
       },
     ],
+  },
+  {
+    path: '/auth',
+    element: <Auth />,
   },
 ]);

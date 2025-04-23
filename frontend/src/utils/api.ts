@@ -11,8 +11,19 @@ interface RegisterData extends LoginData {
   confirmPassword: string;
 }
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export const login = async (data: LoginData): Promise<AxiosResponse> =>
-  API.post('/auth/signin', data);
+  API.post<LoginData>('/auth/signin', data);
 
 export const register = async (data: RegisterData): Promise<AxiosResponse> =>
-  API.post('/user', data);
+  API.post<RegisterData>('/user', data);
+
+export const getUser = async (): Promise<User | unknown> =>
+  API.get<User>('/user/profile');
