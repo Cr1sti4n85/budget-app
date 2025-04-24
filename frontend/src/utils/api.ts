@@ -29,6 +29,11 @@ export const getUser = async (): Promise<User> => {
   const response = await API.get<User>('/user/profile');
   return response.data;
 };
+// export const getUser = async (): Promise<AxiosResponse> =>
+//   API.get('/user/profile');
+
+export const logout = async (): Promise<AxiosResponse> =>
+  API.get('/auth/logout');
 
 //Categories
 

@@ -77,6 +77,7 @@ export class AuthService {
         secure:
           this.configService.getOrThrow<string>('NODE_ENV') === 'production',
         expires: expiresRefreshToken,
+        path: 'api/auth/refresh',
       });
   }
 }

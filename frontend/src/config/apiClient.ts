@@ -16,7 +16,7 @@ const options: CreateAxiosDefaults = {
 
 //creation of new axios instance in order to avoid loops
 const TokenRefreshClient: AxiosInstance = axios.create(options);
-TokenRefreshClient.interceptors.response.use((response) => response.data);
+TokenRefreshClient.interceptors.response.use((response) => response);
 
 const API: AxiosInstance = axios.create(options);
 
@@ -26,9 +26,8 @@ API.interceptors.response.use(
     const { config, response } = error;
     if (!response) return Promise.reject(error);
     const { data, status } = response as AxiosResponse; //Error response from api
-
     //try to refresh access token
-    if (status === 401 && data?.message === 'No auth token') {
+    if (status === 401 && data?.message === 'invalid_access_token') {
       try {
         await TokenRefreshClient.get('/auth/refresh');
         if (config) {
