@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Category, deleteCategory } from '../utils/api';
+import { CategoryDto, deleteCategory } from '../utils/api';
 import { CATEGORY } from './useCategory';
 import { toast } from 'react-toastify';
 
@@ -9,7 +9,7 @@ export const useDeleteCategory = (categoryId: string) => {
     mutationFn: () => deleteCategory(categoryId),
     //we need to update the cache in order to see the change in frontend
     onSuccess: () => {
-      queryClient.setQueryData([CATEGORY], (oldData: Category[]) =>
+      queryClient.setQueryData([CATEGORY], (oldData: CategoryDto[]) =>
         oldData.filter((category) => category.id !== categoryId),
       );
     },

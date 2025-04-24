@@ -32,32 +32,35 @@ export const getUser = async (): Promise<User> => {
 
 //Categories
 
-interface CreateCategory {
+export interface CreateCategory {
   title: string;
 }
 
-export interface Category extends CreateCategory {
+export interface CategoryDto extends CreateCategory {
   id: string;
   transactions: Transaction[];
 }
 
-export const getCategories = async (): Promise<Category[]> => {
-  const response = await API.get<Category[]>('/category');
+export const getCategories = async (): Promise<CategoryDto[]> => {
+  const response = await API.get<CategoryDto[]>('/category');
   return response.data;
 };
 
 export const createCategory = async (
   data: CreateCategory,
-): Promise<Category> => {
-  const response = await API.post<Category>('/category', data);
+): Promise<CategoryDto> => {
+  const response = await API.post<CategoryDto>('/category', data);
   return response.data;
 };
 // API.post('/category', data);
 
 export const updateCategory = async (
-  data: Category,
+  data: CreateCategory,
   id: string,
-): Promise<AxiosResponse> => API.patch(`/category/${id}`, data);
+): Promise<CategoryDto> => {
+  const response = await API.patch<CategoryDto>(`/category/${id}`, data);
+  return response.data;
+};
 
 export const deleteCategory = async (id: string): Promise<AxiosResponse> =>
   API.delete(`/category/${id}`);
@@ -70,5 +73,5 @@ interface Transaction {
   amount: number;
   date: string;
   categoryId: number;
-  category: Category;
+  category: CategoryDto;
 }

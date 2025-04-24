@@ -1,29 +1,48 @@
 import { FC, useState } from 'react';
-import { Category, createCategory } from '../utils/api';
+import { CategoryDto, createCategory, updateCategory } from '../utils/api';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { FaSpinner } from 'react-icons/fa6';
 import queryClient from '../config/queryClient';
 import { CATEGORY } from '../hooks/useCategory';
+// import { useUpdateCategory } from '../hooks/useUpdateCategory';
 
 type Props = {
-  type: 'post' | 'patch';
-  id?: number;
+  id: string;
+  setCategoryId: (id: string) => void;
   setVisibleModal: (visible: boolean) => void;
 };
 
-const CategoryModal: FC<Props> = ({ type, setVisibleModal }) => {
+const CategoryModal: FC<Props> = ({ id, setCategoryId, setVisibleModal }) => {
   const [title, setTitle] = useState<string>('');
 
-  const { mutate: addTitle, isPending } = useMutation({
+  const { mutate: updateTitle, isPending: isUpdating } = useMutation({
+    mutationFn: () => updateCategory({ title }, id),
+    onSuccess: () => {
+      toast.success('Categoría actualizada con éxito');
+      setVisibleModal(false);
+      setCategoryId('');
+      queryClient.invalidateQueries({ queryKey: [CATEGORY] });
+    },
+    onError: (error) => {
+      if (error) {
+        if (typeof error.message === 'string') {
+          toast.error(error.message);
+        } else {
+          toast.error(error.message[0]);
+        }
+      }
+    },
+  });
+
+  const { mutate: addTitle, isPending: isCreating } = useMutation({
     mutationFn: createCategory,
     onSuccess: (newCategory) => {
       toast.success('Categoría creada con éxito');
       setVisibleModal(false);
-      // queryClient.invalidateQueries({ queryKey: ['category'] });
-      queryClient.setQueryData<Category[]>(
+      queryClient.setQueryData<CategoryDto[]>(
         [CATEGORY],
-        (old: Category[] | undefined) => {
+        (old: CategoryDto[] | undefined) => {
           return old ? [...old, newCategory] : [newCategory];
         },
       );
@@ -57,18 +76,34 @@ const CategoryModal: FC<Props> = ({ type, setVisibleModal }) => {
           />
         </label>
         <div className="flex items-center gap-2">
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              addTitle({ title });
-            }}
-            disabled={isPending}
-            type="submit"
-            className="btn btn-green"
-          >
-            {isPending && <FaSpinner className="animate-spin" />}
-            {type === 'patch' ? 'Guardar' : 'Crear'}
-          </button>
+          {id ? (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                updateTitle();
+              }}
+              disabled={isUpdating}
+              type="submit"
+              className="btn btn-green"
+            >
+              {isUpdating && <FaSpinner className="animate-spin" />}
+              Guardar
+            </button>
+          ) : (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                addTitle({ title });
+              }}
+              disabled={isCreating}
+              type="submit"
+              className="btn btn-green"
+            >
+              {isCreating && <FaSpinner className="animate-spin" />}
+              Crear
+            </button>
+          )}
+
           <button
             onClick={() => setVisibleModal(false)}
             className="btn btn-red"

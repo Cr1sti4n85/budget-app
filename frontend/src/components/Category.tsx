@@ -1,14 +1,19 @@
 import { AiFillCloseCircle, AiFillEdit } from 'react-icons/ai';
-import type { Category } from '../utils/api';
+import type { CategoryDto } from '../utils/api';
 import { FC } from 'react';
 import { useDeleteCategory } from '../hooks/useDeleteCategory';
 
 interface CategoryProps {
-  category: Category;
-  setType: React.Dispatch<React.SetStateAction<'post' | 'patch'>>;
+  category: CategoryDto;
+  setVisibleModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setCategoryId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Category: FC<CategoryProps> = ({ category, setType }) => {
+const Category: FC<CategoryProps> = ({
+  category,
+  setVisibleModal,
+  setCategoryId,
+}) => {
   const { id, title } = category;
   const { deleteCategory } = useDeleteCategory(id);
 
@@ -22,7 +27,12 @@ const Category: FC<CategoryProps> = ({ category, setType }) => {
         className="hidden absolute px-3 left-0 top-0 bottom-0 
           right-0 rounded-lg bg-black/90 items-center justify-between group-hover:flex"
       >
-        <button onClick={() => setType('patch')}>
+        <button
+          onClick={() => {
+            setVisibleModal(true);
+            setCategoryId(id);
+          }}
+        >
           <AiFillEdit className="cursor-pointer" />
         </button>
         <form className="flex">

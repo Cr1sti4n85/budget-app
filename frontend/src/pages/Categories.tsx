@@ -1,14 +1,12 @@
 import { FC, useState } from 'react';
-// import { AiFillEdit, AiFillCloseCircle } from 'react-icons/ai';
 import { FaPlus } from 'react-icons/fa';
 import CategoryModal from '../components/CategoryModal';
 import useCategories from '../hooks/useCategory';
 import Category from '../components/Category';
-// import { useDeleteCategory } from '../hooks/useDeleteCategory';
 
 const Categories: FC = () => {
   const [visibleModal, setVisibleModal] = useState<boolean>(false);
-  const [type, setType] = useState<'post' | 'patch'>('post');
+  const [categoryId, setCategoryId] = useState<string>('');
 
   const { categories } = useCategories();
 
@@ -18,14 +16,18 @@ const Categories: FC = () => {
         <h1>Tu lista de categorías</h1>
         <div className="mt-2 flex flex-wrap items-center gap-2">
           {categories?.map((category, idx) => (
-            <Category category={category} key={idx} setType={setType} />
+            <Category
+              category={category}
+              key={idx}
+              setVisibleModal={setVisibleModal}
+              setCategoryId={setCategoryId}
+            />
           ))}
         </div>
 
         {/* Add category */}
         <button
           onClick={() => {
-            setType('post');
             setVisibleModal(!visibleModal);
           }}
           className="mt-5 flex max-w-fit items-center gap-2
@@ -38,7 +40,11 @@ const Categories: FC = () => {
 
       {/* Create Modal */}
       {visibleModal && (
-        <CategoryModal type={type} setVisibleModal={setVisibleModal} />
+        <CategoryModal
+          id={categoryId}
+          setCategoryId={setCategoryId}
+          setVisibleModal={setVisibleModal}
+        />
       )}
     </>
   );
