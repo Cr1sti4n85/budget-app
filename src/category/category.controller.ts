@@ -45,10 +45,11 @@ export class CategoryController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard, OwnerGuard)
   update(
+    @CurrentUser() user: User,
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return this.categoryService.update(+id, updateCategoryDto);
+    return this.categoryService.update(+id, updateCategoryDto, user.id);
   }
 
   @Delete(':id')

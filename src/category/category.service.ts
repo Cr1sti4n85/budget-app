@@ -61,7 +61,11 @@ export class CategoryService {
     return instanceToPlain(category);
   }
 
-  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+  async update(
+    id: number,
+    updateCategoryDto: UpdateCategoryDto,
+    userId: number,
+  ) {
     const category = await this.categoryRepo.findOne({
       where: { id },
     });
@@ -70,6 +74,16 @@ export class CategoryService {
       throw new NotFoundException('No se encontró esa categoría');
     }
 
+    const existCategory = await this.categoryRepo.findOne({
+      where: {
+        title: updateCategoryDto.title,
+        users: { id: userId },
+      },
+    });
+
+    if (existCategory) {
+      throw new BadRequestException('Esa categoría ya existe.');
+    }
     category.title = updateCategoryDto.title!;
 
     await this.categoryRepo.save(category);
