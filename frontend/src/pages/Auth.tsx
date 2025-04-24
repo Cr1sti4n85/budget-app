@@ -84,7 +84,7 @@ const Auth: FC = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
               <button
-                className={`btn btn-green mx-auto ${(!email || !password || password !== confirmPassword) && 'cursor-not-allowed'}`}
+                className={`btn btn-green mx-auto`}
                 disabled={!email || !password || password !== confirmPassword}
                 onClick={(e) => {
                   e.preventDefault();
@@ -104,7 +104,7 @@ const Auth: FC = () => {
             </>
           ) : (
             <button
-              className={`btn btn-green mx-auto ${(!email || !password) && 'cursor-not-allowed'}`}
+              className={`btn btn-green mx-auto `}
               disabled={!email || !password}
               onClick={(e) => {
                 e.preventDefault();

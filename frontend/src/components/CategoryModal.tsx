@@ -1,7 +1,10 @@
 import { FC, useState } from 'react';
-import { createCategory } from '../utils/api';
+import { Category, createCategory } from '../utils/api';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import { FaSpinner } from 'react-icons/fa6';
+import queryClient from '../config/queryClient';
+import { CATEGORY } from '../hooks/useCategory';
 
 type Props = {
   type: 'post' | 'patch';
@@ -9,14 +12,21 @@ type Props = {
   setVisibleModal: (visible: boolean) => void;
 };
 
-const CategoryModal: FC<Props> = ({ type, id = 0, setVisibleModal }) => {
+const CategoryModal: FC<Props> = ({ type, setVisibleModal }) => {
   const [title, setTitle] = useState<string>('');
 
   const { mutate: addTitle, isPending } = useMutation({
     mutationFn: createCategory,
-    onSuccess: () => {
+    onSuccess: (newCategory) => {
       toast.success('Categoría creada con éxito');
       setVisibleModal(false);
+      // queryClient.invalidateQueries({ queryKey: ['category'] });
+      queryClient.setQueryData<Category[]>(
+        [CATEGORY],
+        (old: Category[] | undefined) => {
+          return old ? [...old, newCategory] : [newCategory];
+        },
+      );
     },
     onError: (error) => {
       if (error) {
@@ -56,6 +66,7 @@ const CategoryModal: FC<Props> = ({ type, id = 0, setVisibleModal }) => {
             type="submit"
             className="btn btn-green"
           >
+            {isPending && <FaSpinner className="animate-spin" />}
             {type === 'patch' ? 'Guardar' : 'Crear'}
           </button>
           <button

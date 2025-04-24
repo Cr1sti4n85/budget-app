@@ -11,7 +11,7 @@ interface RegisterData extends LoginData {
   confirmPassword: string;
 }
 
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
@@ -25,20 +25,34 @@ export const login = async (data: LoginData): Promise<AxiosResponse> =>
 export const register = async (data: RegisterData): Promise<AxiosResponse> =>
   API.post<RegisterData>('/user', data);
 
-export const getUser = async (): Promise<User | unknown> =>
-  API.get<User>('/user/profile');
+export const getUser = async (): Promise<User> => {
+  const response = await API.get<User>('/user/profile');
+  return response.data;
+};
 
 //Categories
 
-interface Category {
+interface CreateCategory {
   title: string;
 }
 
-export const getCategories = async (): Promise<AxiosResponse> =>
-  API.get('/category');
+export interface Category extends CreateCategory {
+  id: number;
+  transactions: Transaction[];
+}
 
-export const createCategory = async (data: Category): Promise<AxiosResponse> =>
-  API.post('/category', data);
+export const getCategories = async (): Promise<Category[]> => {
+  const response = await API.get<Category[]>('/category');
+  return response.data;
+};
+
+export const createCategory = async (
+  data: CreateCategory,
+): Promise<Category> => {
+  const response = await API.post<Category>('/category', data);
+  return response.data;
+};
+// API.post('/category', data);
 
 export const updateCategory = async (
   data: Category,
@@ -47,3 +61,14 @@ export const updateCategory = async (
 
 export const deleteCategory = async (id: string): Promise<AxiosResponse> =>
   API.delete(`/category/${id}`);
+
+//Transactions
+
+interface Transaction {
+  id: number;
+  title: string;
+  amount: number;
+  date: string;
+  categoryId: number;
+  category: Category;
+}
