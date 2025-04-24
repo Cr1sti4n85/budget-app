@@ -1,9 +1,10 @@
 import { FC, useState } from 'react';
-import { AiFillEdit, AiFillCloseCircle } from 'react-icons/ai';
+// import { AiFillEdit, AiFillCloseCircle } from 'react-icons/ai';
 import { FaPlus } from 'react-icons/fa';
-import { Form } from 'react-router';
 import CategoryModal from '../components/CategoryModal';
 import useCategories from '../hooks/useCategory';
+import Category from '../components/Category';
+// import { useDeleteCategory } from '../hooks/useDeleteCategory';
 
 const Categories: FC = () => {
   const [visibleModal, setVisibleModal] = useState<boolean>(false);
@@ -17,26 +18,7 @@ const Categories: FC = () => {
         <h1>Tu lista de categorías</h1>
         <div className="mt-2 flex flex-wrap items-center gap-2">
           {categories?.map((category, idx) => (
-            <div
-              className="group py-2 px-4 rounded-lg bg-blue-600 flex items-center relative gap-2"
-              key={idx}
-            >
-              {category.title}
-              <div
-                className="hidden absolute px-3 left-0 top-0 bottom-0 
-          right-0 rounded-lg bg-black/90 items-center justify-between group-hover:flex"
-              >
-                <button onClick={() => setType('patch')}>
-                  <AiFillEdit className="cursor-pointer" />
-                </button>
-                <Form className="flex" method="delete" action="/category">
-                  <input type="hidden" value={category.id} />
-                  <button type="submit" className="">
-                    <AiFillCloseCircle className="cursor-pointer" />
-                  </button>
-                </Form>
-              </div>
-            </div>
+            <Category category={category} key={idx} setType={setType} />
           ))}
         </div>
 
@@ -56,7 +38,7 @@ const Categories: FC = () => {
 
       {/* Create Modal */}
       {visibleModal && (
-        <CategoryModal type={type} id={1} setVisibleModal={setVisibleModal} />
+        <CategoryModal type={type} setVisibleModal={setVisibleModal} />
       )}
     </>
   );

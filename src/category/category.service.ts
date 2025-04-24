@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -83,6 +84,15 @@ export class CategoryService {
       throw new NotFoundException('Categoría no encontrada.');
     }
 
-    return this.categoryRepo.remove(category);
+    try {
+      return await this.categoryRepo.remove(category);
+    } catch (error) {
+      if (error.code === '23503') {
+        throw new BadRequestException(
+          'No se puede eliminar la categoría porque tiene transacciones asociadas.',
+        );
+      }
+      throw new InternalServerErrorException('Error al eliminar la categoría.');
+    }
   }
 }

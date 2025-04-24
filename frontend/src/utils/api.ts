@@ -37,7 +37,7 @@ interface CreateCategory {
 }
 
 export interface Category extends CreateCategory {
-  id: number;
+  id: string;
   transactions: Transaction[];
 }
 
