@@ -55,7 +55,7 @@
     --tw-outline-style: none;
     outline-style: none;
     &::placeholder {
-      color: var(--color-white);
+      color: var(--color-slate-400);
     }
     &:focus {
       border-color: var(--color-slate-300);
