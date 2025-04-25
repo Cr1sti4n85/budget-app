@@ -20,6 +20,15 @@ export class AuthController {
     return this.authService.login(user, res);
   }
 
+  @Get('logout')
+  @UseGuards(JwtAuthGuard)
+  async logout(
+    @CurrentUser() user: User,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.logout(user, res);
+  }
+
   @Get('refresh')
   @UseGuards(JwtRefreshAuthGuard)
   async refreshToken(

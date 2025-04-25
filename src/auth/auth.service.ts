@@ -80,4 +80,10 @@ export class AuthService {
         path: 'api/auth/refresh',
       });
   }
+
+  async logout(user: User, res: Response) {
+    res
+      .clearCookie('Authentication')
+      .clearCookie('Refresh', { path: 'api/auth/refresh' });
+  }
 }

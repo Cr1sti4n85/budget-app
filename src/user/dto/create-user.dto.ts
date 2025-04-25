@@ -1,4 +1,9 @@
-import { IsEmail, IsString, IsStrongPassword } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsStrongPassword,
+} from 'class-validator';
 import { IsEqualTo } from '../decorators/equal-to.decorator';
 
 export class CreateUserDto {
@@ -20,7 +25,7 @@ export class CreateUserDto {
   )
   password: string;
 
-  @IsString()
+  @IsNotEmpty({ message: 'El campo no puede estar vacío' })
   @IsEqualTo('password', {
     message: 'Las contraseñas no coinciden.',
   })

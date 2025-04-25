@@ -25,6 +25,8 @@ API.interceptors.response.use(
   async (error: AxiosError) => {
     const { config, response } = error;
     if (!response) return Promise.reject(error);
+    console.log(error);
+
     const { data, status } = response as AxiosResponse; //Error response from api
     //try to refresh access token
     if (status === 401 && data?.message === 'invalid_access_token') {

@@ -1,11 +1,23 @@
 import { FC } from 'react';
-import { Link, NavLink } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
 import { FaBtc, FaSignOutAlt } from 'react-icons/fa';
 import useAuth from '../hooks/useAuth';
+import { useMutation } from '@tanstack/react-query';
+import { logout } from '../utils/api';
+import queryClient from '../config/queryClient';
 
 export const Header: FC = () => {
   const { user } = useAuth();
-  const isAuth = user !== null;
+  // const isAuth = user !== null;
+
+  const navigate = useNavigate();
+  const { mutate: signout } = useMutation({
+    mutationFn: logout,
+    onSettled: () => {
+      queryClient.clear(); //clears the entire cache
+      navigate('/auth', { replace: true });
+    },
+  });
 
   const handleActive = ({ isActive }: { isActive: boolean }): string => {
     return isActive ? 'text-white' : 'text-white/50';
@@ -18,7 +30,7 @@ export const Header: FC = () => {
       <Link to="/">
         <FaBtc size={20} />
       </Link>
-      {isAuth && (
+      {user && (
         <nav className="ml-auto mr-10">
           <ul className=" flex items-center gap-5">
             <li>
@@ -39,8 +51,8 @@ export const Header: FC = () => {
           </ul>
         </nav>
       )}
-      {isAuth ? (
-        <button className="btn btn-red">
+      {user ? (
+        <button className="btn btn-red" onClick={() => signout()}>
           <span>Cerrar sesión</span>
           <FaSignOutAlt />
         </button>
