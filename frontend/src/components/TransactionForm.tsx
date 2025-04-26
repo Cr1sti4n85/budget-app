@@ -1,38 +1,65 @@
-import { FC } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FC, useState } from 'react';
+import { FaPlus, FaSpinner } from 'react-icons/fa';
 import useCategories from '../hooks/useCategory';
+import { Link } from 'react-router';
+import { CreateTransactionDto } from '../utils/api';
+import { useCreateTransaction } from '../hooks/useCreateTransaction';
 
 const TransactionForm: FC = () => {
   const { categories } = useCategories();
   const length = categories?.length || 0;
 
+  const [transaction, setTransaction] = useState<CreateTransactionDto>({
+    title: '',
+    amount: 0,
+    category: '',
+    type: 'gastos',
+  });
+  const { addTransaction, isPending: isAddingTransaction } =
+    useCreateTransaction(transaction);
+
   return (
     <div className="rounded-md bg-slate-800 p-4">
       <form className="grid gap-2">
         <label className="grid" htmlFor="title">
-          <span>Title</span>
+          <span>Título</span>
           <input
             className="input"
             type="text"
             placeholder="Título..."
             name="title"
             required
+            onChange={(e) =>
+              setTransaction({ ...transaction, title: e.target.value })
+            }
+            value={transaction.title}
           />
         </label>
         <label className="grid" htmlFor="amount">
-          <span>Amount</span>
+          <span>Cantidad</span>
           <input
             className="input"
             type="number"
             placeholder="Cantidad..."
             name="amount"
             required
+            onChange={(e) =>
+              setTransaction({ ...transaction, amount: +e.target.value })
+            }
+            value={transaction.amount}
           />
         </label>
         {length > 0 ? (
           <label htmlFor="category" className="grid">
-            <span>Category</span>
-            <select className="input bg-slate-800" name="category" required>
+            <span>Categoría</span>
+            <select
+              className="input bg-slate-800"
+              name="category"
+              required
+              onChange={(e) => {
+                setTransaction({ ...transaction, category: e.target.value });
+              }}
+            >
               {categories?.map((category, idx) => (
                 <option key={idx} value={category.id}>
                   {category.title}
@@ -45,17 +72,15 @@ const TransactionForm: FC = () => {
             Para registrar una transacción, primero debes crear una categoría
           </h1>
         )}
-        {/* Add category */}
-        <button
-          //   onClick={() => {
-          //     setVisibleModal(!visibleModal);
-          //   }}
+
+        <Link
+          to={'/categories'}
           className="flex max-w-fit items-center gap-2
                text-white/50 hover:text-white cursor-pointer"
         >
           <FaPlus />
           <span>Administrar categorías</span>
-        </button>
+        </Link>
         {/*Radio buttons */}
         <div className="flex gap-4 items-center">
           <label className="flex cursor-pointer items-center gap-2">
@@ -64,6 +89,9 @@ const TransactionForm: FC = () => {
               name="type"
               value={'ganancias'}
               className="form-radio text-blue-600 cursor-pointer"
+              onChange={(e) =>
+                setTransaction({ ...transaction, type: e.target.value })
+              }
             />
             <span>Ganacias</span>
           </label>
@@ -73,12 +101,27 @@ const TransactionForm: FC = () => {
               name="type"
               value={'gastos'}
               className="form-radio text-blue-600 cursor-pointer"
+              onChange={(e) =>
+                setTransaction({ ...transaction, type: e.target.value })
+              }
             />
             <span>Gastos</span>
           </label>
         </div>
         {/*Submit */}
-        <button className=" btn max-w-fit btn-green mt-2">Enviar</button>
+        <button
+          className=" btn max-w-fit btn-green mt-2"
+          type="submit"
+          onClick={(e) => {
+            e.preventDefault();
+            addTransaction();
+          }}
+        >
+          {isAddingTransaction && (
+            <FaSpinner className="animate-spin text-2xl" />
+          )}
+          Enviar
+        </button>
       </form>
     </div>
   );

@@ -13,7 +13,7 @@ interface RegisterData extends LoginData {
 
 export interface User {
   id: string;
-  name: string;
+  username: string;
   email: string;
   createdAt: string;
   updatedAt: string;
@@ -72,11 +72,26 @@ export const deleteCategory = async (id: string): Promise<AxiosResponse> =>
 
 //Transactions
 
-interface Transaction {
-  id: number;
+export interface CreateTransactionDto {
   title: string;
   amount: number;
-  date: string;
-  categoryId: number;
-  category: CategoryDto;
+  type: string;
+  category: string;
 }
+
+export interface Transaction {
+  id: number;
+  title: string;
+  type: string;
+  amount: number;
+  createdAt: Date;
+  category: CategoryDto;
+  users: User;
+}
+
+export const createTransaction = async (
+  data: CreateTransactionDto,
+): Promise<Transaction> => {
+  const response = await API.post<Transaction>('/transaction', data);
+  return response.data;
+};

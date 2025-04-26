@@ -47,9 +47,7 @@ const Auth: FC = () => {
       }
     },
   });
-  {
-    /* <div className="min-h-screen bg-slate-900 text-white pb-20"></div> */
-  }
+
   return (
     <div className="min-h-screen bg-slate-900 text-white pb-20">
       <div
