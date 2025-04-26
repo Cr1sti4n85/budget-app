@@ -1,7 +1,11 @@
 import { FC } from 'react';
 import { FaPlus } from 'react-icons/fa';
+import useCategories from '../hooks/useCategory';
 
 const TransactionForm: FC = () => {
+  const { categories } = useCategories();
+  const length = categories?.length || 0;
+
   return (
     <div className="rounded-md bg-slate-800 p-4">
       <form className="grid gap-2">
@@ -25,24 +29,32 @@ const TransactionForm: FC = () => {
             required
           />
         </label>
-        <label htmlFor="category" className="grid">
-          <span>Category</span>
-          <select className="input bg-slate-800" name="category" required>
-            <option value="1">Sueldo</option>
-            <option value="2">Regalo</option>
-            <option value="3">Mercaderia</option>
-          </select>
-        </label>
+        {length > 0 ? (
+          <label htmlFor="category" className="grid">
+            <span>Category</span>
+            <select className="input bg-slate-800" name="category" required>
+              {categories?.map((category, idx) => (
+                <option key={idx} value={category.id}>
+                  {category.title}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : (
+          <h1 className="mt-1 text-red-300">
+            Para registrar una transacción, primero debes crear una categoría
+          </h1>
+        )}
         {/* Add category */}
         <button
           //   onClick={() => {
           //     setVisibleModal(!visibleModal);
           //   }}
-          className="mt-2 flex max-w-fit items-center gap-2
+          className="flex max-w-fit items-center gap-2
                text-white/50 hover:text-white cursor-pointer"
         >
           <FaPlus />
-          <span>Administrar transacciones</span>
+          <span>Administrar categorías</span>
         </button>
         {/*Radio buttons */}
         <div className="flex gap-4 items-center">
