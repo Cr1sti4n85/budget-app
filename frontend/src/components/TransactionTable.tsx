@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import useTransactions from '../hooks/useTransaction';
+import { dateFormatter } from '../utils/dateFormatter';
 
 const TransactionTable: FC = () => {
   const { transactions } = useTransactions();
@@ -25,7 +26,7 @@ const TransactionTable: FC = () => {
               <td>{transaction.title}</td>
               <td>{transaction.amount}</td>
               <td>{transaction.category.title}</td>
-              <td>{transaction.createdAt}</td>
+              <td>{dateFormatter(transaction.createdAt)}</td>
               <td>
                 <button className="btn hover:bg-rose-800 ml-auto">
                   <FaTrash />
