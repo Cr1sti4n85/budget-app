@@ -84,7 +84,7 @@ export interface Transaction {
   title: string;
   type: string;
   amount: number;
-  createdAt: Date;
+  createdAt: string;
   category: CategoryDto;
   users: User;
 }
@@ -93,5 +93,10 @@ export const createTransaction = async (
   data: CreateTransactionDto,
 ): Promise<Transaction> => {
   const response = await API.post<Transaction>('/transaction', data);
+  return response.data;
+};
+
+export const getTransactions = async (): Promise<Transaction[]> => {
+  const response = await API.get<Transaction[]>('/transaction/paginate');
   return response.data;
 };

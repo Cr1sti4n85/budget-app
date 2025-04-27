@@ -1,11 +1,10 @@
 import { CategoryDto, getCategories } from '../utils/api';
 import { QueryOptions, useQuery } from '@tanstack/react-query';
-
-export const CATEGORY = 'category';
+import { QueryKeys } from '../utils/constants';
 
 const useCategories = (opts: QueryOptions<CategoryDto[]> = {}) => {
   const { data: categories, ...rest } = useQuery<CategoryDto[]>({
-    queryKey: [CATEGORY],
+    queryKey: [QueryKeys.CATEGORY],
     queryFn: getCategories,
 
     ...opts,

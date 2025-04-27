@@ -4,8 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { FaSpinner } from 'react-icons/fa6';
 import queryClient from '../config/queryClient';
-import { CATEGORY } from '../hooks/useCategory';
-// import { useUpdateCategory } from '../hooks/useUpdateCategory';
+import { QueryKeys } from '../utils/constants';
 
 type Props = {
   id: string;
@@ -22,7 +21,7 @@ const CategoryModal: FC<Props> = ({ id, setCategoryId, setVisibleModal }) => {
       toast.success('Categoría actualizada con éxito');
       setVisibleModal(false);
       setCategoryId('');
-      queryClient.invalidateQueries({ queryKey: [CATEGORY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.CATEGORY] });
     },
     onError: (error) => {
       if (error) {
@@ -41,7 +40,7 @@ const CategoryModal: FC<Props> = ({ id, setCategoryId, setVisibleModal }) => {
       toast.success('Categoría creada con éxito');
       setVisibleModal(false);
       queryClient.setQueryData<CategoryDto[]>(
-        [CATEGORY],
+        [QueryKeys.CATEGORY],
         (old: CategoryDto[] | undefined) => {
           return old ? [...old, newCategory] : [newCategory];
         },

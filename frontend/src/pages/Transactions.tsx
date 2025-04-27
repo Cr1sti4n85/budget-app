@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import TransactionForm from '../components/TransactionForm';
+import TransactionTable from '../components/TransactionTable';
 
 const Transactions: FC = () => {
   return (
@@ -34,7 +35,9 @@ const Transactions: FC = () => {
         </div>
       </div>
       {/*Transactions Table */}
-      <h1 className="my-5">Tabla de transacciones</h1>
+      <h1 className="my-5">
+        <TransactionTable />
+      </h1>
     </>
   );
 };

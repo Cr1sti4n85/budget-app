@@ -1,25 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
-import {
-  createTransaction,
-  CreateTransactionDto,
-  Transaction,
-} from '../utils/api';
+import { createTransaction, CreateTransactionDto } from '../utils/api';
 import { toast } from 'react-toastify';
 import queryClient from '../config/queryClient';
-
-export const TRANSACTION = 'transaction';
+import { QueryKeys } from '../utils/constants';
 
 export const useCreateTransaction = (transaction: CreateTransactionDto) => {
   const { mutate, ...rest } = useMutation({
     mutationFn: () => createTransaction(transaction),
-    onSuccess: (newTransaction) => {
+    onSuccess: () => {
       toast.success('Transacción creada con éxito');
-      queryClient.setQueryData<Transaction[]>(
-        [TRANSACTION],
-        (old: Transaction[] | undefined) => {
-          return old ? [...old, newTransaction] : [newTransaction];
-        },
-      );
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.TRANSACTION] });
     },
     onError: (error) => {
       if (error) {
