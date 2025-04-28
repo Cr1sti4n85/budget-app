@@ -80,7 +80,7 @@ export interface CreateTransactionDto {
 }
 
 export interface Transaction {
-  id: number;
+  id: string;
   title: string;
   type: string;
   amount: number;
@@ -100,3 +100,6 @@ export const getTransactions = async (): Promise<Transaction[]> => {
   const response = await API.get<Transaction[]>('/transaction/paginate');
   return response.data;
 };
+
+export const deleteTransaction = async (id: string): Promise<AxiosResponse> =>
+  API.delete(`/transaction/${id}`);

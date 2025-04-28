@@ -1,5 +1,5 @@
 import { AiFillCloseCircle, AiFillEdit } from 'react-icons/ai';
-import type { CategoryDto } from '../utils/api';
+import { CategoryDto } from '../utils/api';
 import { FC } from 'react';
 import { useDeleteCategory } from '../hooks/useDeleteCategory';
 
