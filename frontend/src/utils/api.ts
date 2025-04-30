@@ -97,7 +97,7 @@ export const createTransaction = async (
 };
 
 export const getTransactions = async (): Promise<TransactionDto[]> => {
-  const response = await API.get<TransactionDto[]>('/transaction/paginate');
+  const response = await API.get<TransactionDto[]>('/transaction');
   return response.data;
 };
 

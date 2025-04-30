@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { FaPlus, FaSpinner } from 'react-icons/fa';
 import useCategories from '../hooks/useCategory';
 import { Link } from 'react-router';
@@ -13,10 +13,24 @@ const TransactionForm: FC = () => {
     title: '',
     amount: 0,
     category: '',
-    type: 'gastos',
+    type: 'ganancias',
   });
-  const { addTransaction, isPending: isAddingTransaction } =
-    useCreateTransaction(transaction);
+  const {
+    addTransaction,
+    isPending: isAddingTransaction,
+    isSuccess,
+  } = useCreateTransaction(transaction);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setTransaction({
+        title: '',
+        amount: 0,
+        category: '',
+        type: 'ganancias',
+      });
+    }
+  }, [isSuccess]);
 
   return (
     <div className="rounded-md bg-slate-800 p-4">
@@ -56,10 +70,12 @@ const TransactionForm: FC = () => {
               className="input bg-slate-800"
               name="category"
               required
+              value={transaction.category}
               onChange={(e) => {
                 setTransaction({ ...transaction, category: e.target.value });
               }}
             >
+              <option value="">Elige una categoría</option>
               {categories?.map((category, idx) => (
                 <option key={idx} value={category.id}>
                   {category.title}

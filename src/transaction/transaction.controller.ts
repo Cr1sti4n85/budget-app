@@ -31,6 +31,12 @@ export class TransactionController {
     return this.transactionService.create(createTransactionDto, user.id);
   }
 
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  findAll(@CurrentUser() user: User) {
+    return this.transactionService.findAll(user.id);
+  }
+
   @Get('paginate')
   @UseGuards(JwtAuthGuard)
   findAndPaginate(
