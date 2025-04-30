@@ -14,6 +14,9 @@ export const useDeleteTransaction = (transactionId: string) => {
         (oldData: TransactionDto[]) =>
           oldData.filter((transaction) => transaction.id !== transactionId),
       );
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.TRANSACTION_PAGINATED],
+      });
     },
     onError: (error) => {
       toast.error(error.message);

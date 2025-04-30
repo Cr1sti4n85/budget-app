@@ -10,6 +10,9 @@ export const useCreateTransaction = (transaction: CreateTransactionDto) => {
     onSuccess: () => {
       toast.success('Transacción creada con éxito');
       queryClient.invalidateQueries({ queryKey: [QueryKeys.TRANSACTION] });
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.TRANSACTION_PAGINATED],
+      });
     },
     onError: (error) => {
       if (error) {
