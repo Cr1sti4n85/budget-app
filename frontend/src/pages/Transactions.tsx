@@ -1,8 +1,21 @@
 import { FC } from 'react';
 import TransactionForm from '../components/TransactionForm';
 import TransactionTable from '../components/TransactionTable';
+import useTransactionsExpenses from '../hooks/useTransactionsExpense';
+import useTransactionsIncome from '../hooks/useTransactionsIncome';
+import { TransactionType } from '../utils/constants';
+import { formatCurrency } from '../utils/currencyFormat';
 
 const Transactions: FC = () => {
+  const { transactionsExpense } = useTransactionsExpenses(
+    {},
+    TransactionType.GASTOS,
+  );
+  const { transactionsIncome } = useTransactionsIncome(
+    {},
+    TransactionType.GANANCIAS,
+  );
+
   return (
     <>
       <div className="mt-4 grid grid-cols-3 items-start gap-4">
@@ -18,7 +31,9 @@ const Transactions: FC = () => {
                 Ganancia total:
               </p>
               <p className="bg-green-600 mt-2 rounded-sm p-1 text-center">
-                $0.00
+                {transactionsIncome
+                  ? formatCurrency.format(transactionsIncome)
+                  : '0.00'}
               </p>
             </div>
             <div>
@@ -26,7 +41,9 @@ const Transactions: FC = () => {
                 Gasto total:
               </p>
               <p className="bg-red-600 mt-2 rounded-sm p-1 text-center">
-                $0.00
+                {transactionsExpense
+                  ? formatCurrency.format(transactionsExpense)
+                  : '0.00'}
               </p>
             </div>
           </div>
@@ -36,7 +53,7 @@ const Transactions: FC = () => {
       </div>
       {/*Transactions Table */}
       <h1 className="my-5">
-        <TransactionTable limit={3} />
+        <TransactionTable limit={5} />
       </h1>
     </>
   );

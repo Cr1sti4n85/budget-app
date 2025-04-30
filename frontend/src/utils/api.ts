@@ -113,3 +113,8 @@ export const getPaginatedTransactions = async (
   );
   return response.data;
 };
+
+export const getTransactionsByType = async (type: string): Promise<number> => {
+  const response = await API.get<number>(`/transaction/type/${type}`);
+  return response.data;
+};

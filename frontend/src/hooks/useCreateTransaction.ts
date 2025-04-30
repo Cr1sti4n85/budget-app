@@ -7,12 +7,20 @@ import { QueryKeys } from '../utils/constants';
 export const useCreateTransaction = (transaction: CreateTransactionDto) => {
   const { mutate, ...rest } = useMutation({
     mutationFn: () => createTransaction(transaction),
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success('Transacción creada con éxito');
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.TRANSACTION] });
-      queryClient.invalidateQueries({
-        queryKey: [QueryKeys.TRANSACTION_PAGINATED],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.TRANSACTION] }),
+        queryClient.invalidateQueries({
+          queryKey: [QueryKeys.TRANSACTION_PAGINATED],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [QueryKeys.TRANSACTIONS_INCOME],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [QueryKeys.TRANSACTIONS_EXPENSE],
+        }),
+      ]);
     },
     onError: (error) => {
       if (error) {
