@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteTransaction, Transaction } from '../utils/api';
+import { deleteTransaction, TransactionDto } from '../utils/api';
 import { toast } from 'react-toastify';
 import { QueryKeys } from '../utils/constants';
 
@@ -11,7 +11,7 @@ export const useDeleteTransaction = (transactionId: string) => {
       toast.success('Transacción eliminada con éxito');
       queryClient.setQueryData(
         [QueryKeys.TRANSACTION],
-        (oldData: Transaction[]) =>
+        (oldData: TransactionDto[]) =>
           oldData.filter((transaction) => transaction.id !== transactionId),
       );
     },

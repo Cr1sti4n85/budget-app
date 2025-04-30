@@ -1,9 +1,9 @@
-import { getTransactions, Transaction } from '../utils/api';
+import { getTransactions, TransactionDto } from '../utils/api';
 import { QueryOptions, useQuery } from '@tanstack/react-query';
 import { QueryKeys } from '../utils/constants';
 
-const useTransactions = (opts: QueryOptions<Transaction[]> = {}) => {
-  const { data: transactions, ...rest } = useQuery<Transaction[]>({
+const useTransactions = (opts: QueryOptions<TransactionDto[]> = {}) => {
+  const { data: transactions, ...rest } = useQuery<TransactionDto[]>({
     queryKey: [QueryKeys.TRANSACTION],
     queryFn: getTransactions,
 

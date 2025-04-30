@@ -43,7 +43,7 @@ export interface CreateCategory {
 
 export interface CategoryDto extends CreateCategory {
   id: string;
-  transactions: Transaction[];
+  transactions: TransactionDto[];
 }
 
 export const getCategories = async (): Promise<CategoryDto[]> => {
@@ -79,7 +79,7 @@ export interface CreateTransactionDto {
   category: string;
 }
 
-export interface Transaction {
+export interface TransactionDto {
   id: string;
   title: string;
   type: string;
@@ -91,15 +91,25 @@ export interface Transaction {
 
 export const createTransaction = async (
   data: CreateTransactionDto,
-): Promise<Transaction> => {
-  const response = await API.post<Transaction>('/transaction', data);
+): Promise<TransactionDto> => {
+  const response = await API.post<TransactionDto>('/transaction', data);
   return response.data;
 };
 
-export const getTransactions = async (): Promise<Transaction[]> => {
-  const response = await API.get<Transaction[]>('/transaction/paginate');
+export const getTransactions = async (): Promise<TransactionDto[]> => {
+  const response = await API.get<TransactionDto[]>('/transaction/paginate');
   return response.data;
 };
 
 export const deleteTransaction = async (id: string): Promise<AxiosResponse> =>
   API.delete(`/transaction/${id}`);
+
+export const getPaginatedTransactions = async (
+  page: number,
+  limit: number,
+): Promise<TransactionDto[]> => {
+  const response = await API.get<TransactionDto[]>(
+    `/transaction/paginate?page=${page}&limit=${limit}`,
+  );
+  return response.data;
+};

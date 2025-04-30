@@ -1,9 +1,18 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import useTransactions from '../hooks/useTransaction';
 import Transaction from './Transaction';
+import { TransactionDto } from '../utils/api';
 
-const TransactionTable: FC = () => {
+interface TransactionTableProps {
+  limit: number;
+}
+
+const TransactionTable: FC<TransactionTableProps> = ({ limit = 3 }) => {
   const { transactions } = useTransactions();
+
+  const [data, setData] = useState<TransactionDto[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   return (
     <div className="bg-slate-800 px-4 py-3 rounded-md">

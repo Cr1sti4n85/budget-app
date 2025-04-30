@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import type { Transaction } from '../utils/api';
+import type { TransactionDto } from '../utils/api';
 import { TransactionType } from '../utils/constants';
 import { formatCurrency } from '../utils/currencyFormat';
 import { dateFormatter } from '../utils/dateFormatter';
@@ -7,7 +7,7 @@ import { FaTrash } from 'react-icons/fa';
 import { useDeleteTransaction } from '../hooks/useDeleteTransaction';
 
 interface TransactionProps {
-  transaction: Transaction;
+  transaction: TransactionDto;
   index: number;
 }
 const Transaction: FC<TransactionProps> = ({ transaction, index }) => {
