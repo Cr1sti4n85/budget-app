@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import Transactions from '../pages/Transactions';
 import Categories from '../pages/Categories';
 import Auth from '../pages/Auth';
+import { HomePage } from '../pages/inicio';
 // import ProtectedRoutes from '../components/ProtectedRoutes';
 
 export const router = createBrowserRouter([
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
         element: <Categories />,
       },
     ],
+  },
+  {
+    path: '/inicio',
+    element: <HomePage />,
   },
   {
     path: '/auth',

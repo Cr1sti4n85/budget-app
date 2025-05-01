@@ -1,9 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 import { FC, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { FaSpinner } from 'react-icons/fa6';
 import { login, register } from '../utils/api';
 import { toast } from 'react-toastify';
+import { FaHome } from 'react-icons/fa';
 
 const Auth: FC = () => {
   const navigate = useNavigate();
@@ -49,11 +50,20 @@ const Auth: FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white pb-20">
-      <div
-        className="pt-30 flex flex-col items-center justify-center 
-    bg-stale-900 text-white"
-      >
+    <div className="min-h-screen bg-slate-900 text-white flex flex-col">
+      <header className="bg-slate-800 p-4 flex justify-between items-center shadow-md">
+        <h1 className="text-2xl font-bold">Budget App</h1>
+        <nav className="flex gap-4">
+          <Link
+            to="/inicio"
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg transition-colors"
+          >
+            <FaHome />
+            Inicio
+          </Link>
+        </nav>
+      </header>
+      <div className="pt-30 flex-grow bg-stale-900 text-white">
         <h1 className="mb-10 text-center text-xl">
           {isLoggedIn ? 'Iniciar sesión' : 'Registro'}
         </h1>
@@ -121,7 +131,7 @@ const Auth: FC = () => {
             </button>
           )}
         </form>
-        <div className="flex justify-center mt-5">
+        <div className="flex flex-col justify-center mt-5">
           {isLoggedIn ? (
             <button
               onClick={() => setIsLoggedIn(!isLoggedIn)}
@@ -140,8 +150,19 @@ const Auth: FC = () => {
               ¿Ya tienes cuenta?
             </button>
           )}
+          <button className="text-slate-300 hover:text-white text-xs pt-1">
+            ¿Olvidaste tu contraseña?
+          </button>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-slate-800 p-4 text-center text-slate-400">
+        <p>
+          © {new Date().getFullYear()} Budget App - Todos los derechos
+          reservados
+        </p>
+      </footer>
     </div>
   );
 };

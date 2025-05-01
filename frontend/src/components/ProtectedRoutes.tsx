@@ -18,7 +18,7 @@ const ProtectedRoutes: FC<Props> = ({ children }) => {
       ) : user ? (
         children
       ) : (
-        <Navigate to="/auth" replace />
+        <Navigate to="/inicio" replace />
       )}
     </>
   );

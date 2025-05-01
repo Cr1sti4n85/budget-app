@@ -1,5 +1,9 @@
 import { getPaginatedTransactions, TransactionDto } from '../utils/api';
-import { QueryOptions, useQuery } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  QueryOptions,
+  useQuery,
+} from '@tanstack/react-query';
 import { QueryKeys } from '../utils/constants';
 
 const useTransactionsPaginated = (
@@ -10,7 +14,7 @@ const useTransactionsPaginated = (
   const { data: paginatedTransactions, ...rest } = useQuery<TransactionDto[]>({
     queryKey: [QueryKeys.TRANSACTION_PAGINATED, page, limit],
     queryFn: async () => await getPaginatedTransactions(page, limit),
-
+    placeholderData: keepPreviousData,
     ...opts,
   });
 

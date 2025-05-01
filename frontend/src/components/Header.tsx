@@ -8,14 +8,13 @@ import queryClient from '../config/queryClient';
 
 export const Header: FC = () => {
   const { user } = useAuth();
-  // const isAuth = user !== null;
 
   const navigate = useNavigate();
   const { mutate: signout } = useMutation({
     mutationFn: logout,
     onSettled: () => {
       queryClient.clear(); //clears the entire cache
-      navigate('/auth', { replace: true });
+      navigate('/inicio', { replace: true });
     },
   });
 

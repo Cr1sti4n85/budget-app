@@ -14,7 +14,7 @@ const TransactionTable: FC<TransactionTableProps> = ({ limit = 3 }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
 
-  const { paginatedTransactions } = useTransactionsPaginated(
+  const { paginatedTransactions, isPlaceholderData } = useTransactionsPaginated(
     {},
     currentPage,
     limit,
@@ -27,7 +27,9 @@ const TransactionTable: FC<TransactionTableProps> = ({ limit = 3 }) => {
   }, [transactions, limit]);
 
   const handlePageChange = (selectedItem: { selected: number }) => {
-    setCurrentPage(selectedItem.selected + 1);
+    if (!isPlaceholderData) {
+      setCurrentPage(selectedItem.selected + 1);
+    }
   };
 
   return (
@@ -38,12 +40,16 @@ const TransactionTable: FC<TransactionTableProps> = ({ limit = 3 }) => {
         pageLinkClassName="text-white text-xs py-1 px-2 rounded-sm"
         previousClassName="text-white py-1 px-2 bg-slate-800 rounded-sm text-xs"
         nextClassName="text-white py-1 px-2 bg-slate-800 rounded-sm text-xs"
+        nextLabel="Siguiente"
+        previousLabel="Anterior"
         disabledClassName="text-white/50 cursor-not-allowed"
         disabledLinkClassName="text-slate-600 cursor-not-allowed"
         pageCount={totalPages}
         pageRangeDisplayed={1}
         marginPagesDisplayed={2}
         onPageChange={handlePageChange}
+        forcePage={currentPage - 1} // importante para evitar inconsistencia visual
+        renderOnZeroPageCount={null}
       />
       <div className="bg-slate-800 px-4 py-3 rounded-md mt-4">
         <table className="w-full ">
