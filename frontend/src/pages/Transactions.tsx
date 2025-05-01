@@ -5,6 +5,7 @@ import useTransactionsExpenses from '../hooks/useTransactionsExpense';
 import useTransactionsIncome from '../hooks/useTransactionsIncome';
 import { TransactionType } from '../utils/constants';
 import { formatCurrency } from '../utils/currencyFormat';
+import Chart from '../components/Chart';
 
 const Transactions: FC = () => {
   const { transactionsExpense } = useTransactionsExpenses(
@@ -48,7 +49,10 @@ const Transactions: FC = () => {
             </div>
           </div>
           {/*Chart */}
-          <>Grafico</>
+          <Chart
+            totalIncome={transactionsIncome as number}
+            totalExpense={transactionsExpense as number}
+          />
         </div>
       </div>
       {/*Transactions Table */}
