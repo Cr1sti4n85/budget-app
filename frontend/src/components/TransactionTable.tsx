@@ -59,7 +59,7 @@ const TransactionTable: FC<TransactionTableProps> = ({ limit = 3 }) => {
               <td className="font-bold">Título</td>
               <td className="font-bold">Cantidad</td>
               <td className="font-bold">Categoría</td>
-              <td className="font-bold">Fecha</td>
+              <td className="font-bold invisible md:visible">Fecha</td>
               <td className="text-right">Acción</td>
             </tr>
           </thead>

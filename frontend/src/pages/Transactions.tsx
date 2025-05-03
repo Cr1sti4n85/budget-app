@@ -19,13 +19,13 @@ const Transactions: FC = () => {
 
   return (
     <>
-      <div className="mt-4 grid grid-cols-3 items-start gap-4">
+      <div className="mt-4 grid grid-cols-1 lg:grid-cols-3 items-start gap-4">
         {/**Add transaction form */}
-        <div className="col-span-2 grid">
+        <div className="lg:col-span-2 grid order-2 lg:order-none">
           <TransactionForm />
         </div>
         {/*Statistics */}
-        <div className="rounded-md bg-slate-800 p-3">
+        <div className="rounded-md bg-slate-800 p-3 order-1 lg:order-none">
           <div className="grid grid-cols-2 gap-3">
             <div>
               <p className="flex uppercase text-md font-bold text-center">

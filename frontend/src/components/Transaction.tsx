@@ -29,7 +29,9 @@ const Transaction: FC<TransactionProps> = ({ transaction, index }) => {
           : `-${formatCurrency.format(transaction.amount)}`}
       </td>
       <td>{transaction.category.title}</td>
-      <td>{dateFormatter(transaction.createdAt)}</td>
+      <td className="invisible md:visible">
+        {dateFormatter(transaction.createdAt)}
+      </td>
       <td>
         <button
           className="btn hover:bg-rose-800 ml-auto"
