@@ -1,7 +1,39 @@
 import { FC } from 'react';
+import Chart from '../components/Chart';
+import { TransactionType } from '../utils/constants';
+import useTransactionsExpenses from '../hooks/useTransactionsExpense';
+import useTransactionsIncome from '../hooks/useTransactionsIncome';
+import HomeTable from '../components/HomeTable';
 
 const Home: FC = () => {
-  return <div>Home</div>;
+  const { transactionsExpense } = useTransactionsExpenses(
+    {},
+    TransactionType.GASTOS,
+  );
+  const { transactionsIncome } = useTransactionsIncome(
+    {},
+    TransactionType.GANANCIAS,
+  );
+  return (
+    <div className="mt-4 grid grid-cols-1 lg:grid-cols-[40%_60%] items-start gap-4">
+      {/**chart */}
+      <div>
+        <h1 className="my-5 text-center text-4xl">Gráfico del mes actual</h1>
+        <Chart
+          totalIncome={transactionsIncome as number}
+          totalExpense={transactionsExpense as number}
+          heigth={400}
+          innerRadius={90}
+          outerRadius={120}
+        />
+      </div>
+
+      <div>
+        <h1 className="my-5 text-center text-4xl">Últimos movimientos</h1>
+        <HomeTable limit={5} />
+      </div>
+    </div>
+  );
 };
 
 export default Home;

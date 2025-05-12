@@ -52,6 +52,9 @@ const Transactions: FC = () => {
           <Chart
             totalIncome={transactionsIncome as number}
             totalExpense={transactionsExpense as number}
+            heigth={250}
+            innerRadius={60}
+            outerRadius={80}
           />
         </div>
       </div>

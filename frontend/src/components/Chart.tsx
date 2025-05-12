@@ -13,6 +13,9 @@ const COLORS = ['#00C49F', '#d10404 '];
 type ChartProps = {
   totalIncome: number | 0;
   totalExpense: number | 0;
+  heigth: number;
+  innerRadius: number;
+  outerRadius: number;
 };
 
 interface IData {
@@ -20,22 +23,28 @@ interface IData {
   name: string;
 }
 
-const Chart: FC<ChartProps> = ({ totalIncome, totalExpense }) => {
+const Chart: FC<ChartProps> = ({
+  totalIncome,
+  totalExpense,
+  heigth,
+  innerRadius,
+  outerRadius,
+}) => {
   const data: IData[] = [
     { name: 'Ganancias', value: totalIncome },
     { name: 'Gastos', value: totalExpense },
   ];
 
   return (
-    <div style={{ width: '100%', height: 250 }}>
-      <ResponsiveContainer>
+    <div style={{ width: '100%', height: heigth }}>
+      <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
             data={data}
             cx={'50%'}
-            cy={'50%'}
-            innerRadius={60}
-            outerRadius={80}
+            cy={'40%'}
+            innerRadius={innerRadius}
+            outerRadius={outerRadius}
             fill="#8884d8"
             paddingAngle={5}
             dataKey="value"
@@ -47,7 +56,7 @@ const Chart: FC<ChartProps> = ({ totalIncome, totalExpense }) => {
               />
             ))}
           </Pie>
-          <Legend />
+          <Legend verticalAlign="top" />
           <Tooltip />
         </PieChart>
       </ResponsiveContainer>
