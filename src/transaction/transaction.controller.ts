@@ -37,6 +37,12 @@ export class TransactionController {
     return this.transactionService.findAll(user.id);
   }
 
+  @Get('weekly-transactions')
+  @UseGuards(JwtAuthGuard)
+  findWeeklyTransactions(@CurrentUser() user: User) {
+    return this.transactionService.findWeeklyTransactions(user.id);
+  }
+
   @Get('paginate')
   @UseGuards(JwtAuthGuard)
   findAndPaginate(

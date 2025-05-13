@@ -24,10 +24,10 @@ export class Transaction {
   @Column()
   amount: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.transactions)

@@ -6,7 +6,7 @@ import {
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, LessThan, LessThanOrEqual, Repository } from 'typeorm';
 import { Transaction } from '../transaction/entities/transaction.entity';
 import { instanceToPlain } from 'class-transformer';
 import { PaginationDto } from '../common/dto/pagination.dto';
@@ -44,6 +44,33 @@ export class TransactionService {
     });
 
     return transactions;
+  }
+
+  async findWeeklyTransactions(userId: number) {
+    const currentDay = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(currentDay.getDate() - 7);
+
+    const transactions = await this.transactionRepo.find({
+      where: {
+        users: { id: userId },
+        createdAt: Between(sevenDaysAgo, currentDay),
+      },
+    });
+
+    const maxIncome = transactions
+      .filter((t) => t.type === 'ganancias')
+      .sort((a, b) => {
+        return b.amount - a.amount;
+      })[0];
+
+    const maxExpense = transactions
+      .filter((t) => t.type === 'gastos')
+      .sort((a, b) => {
+        return b.amount - a.amount;
+      })[0];
+
+    return [maxIncome, maxExpense];
   }
 
   async findAllPaginated(userId: number, paginationDto: PaginationDto) {
