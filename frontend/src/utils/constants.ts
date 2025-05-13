@@ -5,6 +5,7 @@ export const QueryKeys = {
   TRANSACTION_PAGINATED: 'transaction_paginated',
   TRANSACTIONS_INCOME: 'transactions_income',
   TRANSACTIONS_EXPENSE: 'transactions_expense',
+  TRANSACTIONS_WEEKLY: 'transactions_weekly',
 } as const;
 
 export const TransactionType = {

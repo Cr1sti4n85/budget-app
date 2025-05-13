@@ -4,6 +4,7 @@ import { TransactionType } from '../utils/constants';
 import useTransactionsExpenses from '../hooks/useTransactionsExpense';
 import useTransactionsIncome from '../hooks/useTransactionsIncome';
 import HomeTable from '../components/HomeTable';
+import useWeeklyTransactions from '../hooks/useWeeklyTransactions';
 
 const Home: FC = () => {
   const { transactionsExpense } = useTransactionsExpenses(
@@ -14,6 +15,9 @@ const Home: FC = () => {
     {},
     TransactionType.GANANCIAS,
   );
+
+  const { weeklyTransactions } = useWeeklyTransactions();
+
   return (
     <div className="mt-4 grid grid-cols-1 lg:grid-cols-[40%_60%] items-start gap-4">
       {/**chart */}
@@ -30,7 +34,12 @@ const Home: FC = () => {
 
       <div>
         <h1 className="my-5 text-center text-4xl">Últimos movimientos</h1>
-        <HomeTable limit={5} />
+        <HomeTable limit={8} />
+      </div>
+      <div>
+        <h2 className="my-5 text-center text-4xl">
+          Información últimos 7 días
+        </h2>
       </div>
     </div>
   );

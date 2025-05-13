@@ -118,3 +118,11 @@ export const getTransactionsByType = async (type: string): Promise<number> => {
   const response = await API.get<number>(`/transaction/type/${type}`);
   return response.data;
 };
+
+export const getWeeklyTransactions = async (): Promise<TransactionDto[]> => {
+  const response = await API.get<TransactionDto[]>(
+    '/transaction/weekly-transactions',
+  );
+
+  return response.data;
+};
