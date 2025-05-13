@@ -6,10 +6,11 @@ import {
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, LessThan, LessThanOrEqual, Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { Transaction } from '../transaction/entities/transaction.entity';
 import { instanceToPlain } from 'class-transformer';
 import { PaginationDto } from '../common/dto/pagination.dto';
+import { TransactionsByDate } from '../types/transaction.types';
 
 @Injectable()
 export class TransactionService {
@@ -58,19 +59,61 @@ export class TransactionService {
       },
     });
 
+    // Count transactions by date
+    const transactionsByDate: TransactionsByDate = transactions.reduce(
+      (accum, transaction) => {
+        const date = transaction.createdAt.toDateString().split('T')[0];
+
+        if (!accum[date]) {
+          // initialize date
+          accum[date] = {
+            date,
+            total: 0,
+            ganancias: 0,
+            gastos: 0,
+          };
+        }
+
+        accum[date].total++;
+
+        // Increment counter by type
+        if (transaction.type === 'ganancias') {
+          accum[date].ganancias++;
+        } else if (transaction.type === 'gastos') {
+          accum[date].gastos++;
+        }
+
+        return accum;
+      },
+      {} as TransactionsByDate,
+    );
+
+    const daysArray = Object.values(transactionsByDate);
+
+    daysArray.sort((a, b) => b.total - a.total);
+
+    // first element is the one with more transactions
+    const dayWithMostTransactions = daysArray[0];
+
+    //filter the max income amount
     const maxIncome = transactions
       .filter((t) => t.type === 'ganancias')
       .sort((a, b) => {
         return b.amount - a.amount;
       })[0];
 
+    //filter the max expense amount
     const maxExpense = transactions
       .filter((t) => t.type === 'gastos')
       .sort((a, b) => {
         return b.amount - a.amount;
       })[0];
 
-    return [maxIncome, maxExpense];
+    return {
+      maxIncome,
+      maxExpense,
+      dayWithMostTransactions,
+    };
   }
 
   async findAllPaginated(userId: number, paginationDto: PaginationDto) {

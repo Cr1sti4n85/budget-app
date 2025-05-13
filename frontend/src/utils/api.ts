@@ -89,6 +89,19 @@ export interface TransactionDto {
   users: User;
 }
 
+export interface DailyStats {
+  date: string;
+  total: number;
+  ganancias: number;
+  gastos: number;
+}
+
+export type WeeklyStats = {
+  maxIncome: TransactionDto;
+  maxExpense: TransactionDto;
+  dayWithMostTransactions: DailyStats;
+};
+
 export const createTransaction = async (
   data: CreateTransactionDto,
 ): Promise<TransactionDto> => {
@@ -119,8 +132,8 @@ export const getTransactionsByType = async (type: string): Promise<number> => {
   return response.data;
 };
 
-export const getWeeklyTransactions = async (): Promise<TransactionDto[]> => {
-  const response = await API.get<TransactionDto[]>(
+export const getWeeklyTransactions = async (): Promise<WeeklyStats> => {
+  const response = await API.get<WeeklyStats>(
     '/transaction/weekly-transactions',
   );
 

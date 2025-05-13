@@ -1,9 +1,9 @@
-import { getWeeklyTransactions, TransactionDto } from '../utils/api';
+import { getWeeklyTransactions, WeeklyStats } from '../utils/api';
 import { QueryOptions, useQuery } from '@tanstack/react-query';
 import { QueryKeys } from '../utils/constants';
 
-const useWeeklyTransactions = (opts: QueryOptions<TransactionDto[]> = {}) => {
-  const { data: weeklyTransactions, ...rest } = useQuery<TransactionDto[]>({
+const useWeeklyTransactions = (opts: QueryOptions<WeeklyStats> = {}) => {
+  const { data: weeklyTransactions, ...rest } = useQuery<WeeklyStats>({
     queryKey: [QueryKeys.TRANSACTIONS_WEEKLY],
     queryFn: getWeeklyTransactions,
 
