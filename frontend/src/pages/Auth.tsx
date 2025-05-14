@@ -36,7 +36,11 @@ const Auth: FC = () => {
 
     onSuccess: () => {
       toast.success('Usuario creado con éxito');
-      navigate('/login', { replace: true });
+      // navigate('/auth', { replace: true });
+      setIsLoggedIn(!isLoggedIn);
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     },
     onError: (error) => {
       if (error) {
