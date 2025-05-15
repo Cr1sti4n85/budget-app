@@ -71,7 +71,7 @@ const Auth: FC = () => {
         <h1 className="mb-10 text-center text-xl">
           {isLoggedIn ? 'Iniciar sesión' : 'Registro'}
         </h1>
-        <form className="flex w-1/3 flex-col mx-auto gap-5">
+        <form className="flex w-1/2 md:w-1/3 flex-col mx-auto gap-5">
           <input
             type="email"
             value={email}

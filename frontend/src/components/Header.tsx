@@ -29,7 +29,7 @@ export const Header: FC = () => {
 
   return (
     <header
-      className="flex flex-wrap  items-center justify-between bg-slate-800 p-4
+      className="relative z-40 flex flex-wrap  items-center justify-between bg-slate-800 p-4
                 shadow-sm backdrop-blur-sm"
     >
       <div className="flex items-center">
@@ -48,10 +48,41 @@ export const Header: FC = () => {
       )}
       {/*navigation menu */}
       {user && (
-        <nav
-          className={`${isMenuOpen ? 'block' : 'hidden'} w-full md:block md:w-auto`}
-        >
-          <ul className=" flex flex-col md:flex-row items-center gap-5 mt-4 md:mt-0">
+        <nav className={'hidden md:block md:w-auto'}>
+          <ul className=" flex flex-row items-center gap-5">
+            <li>
+              <NavLink to="/" className={handleActive}>
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/transactions" className={handleActive}>
+                Transacciones
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/categories" className={handleActive}>
+                Categorias
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+      )}
+
+      {/*logout desktop */}
+      {user && (
+        <div className="hidden md:block md:mt-0 md:w-auto">
+          <button className="btn btn-red md:w-auto" onClick={() => signout()}>
+            <span>Cerrar sesión</span>
+            <FaSignOutAlt />
+          </button>
+        </div>
+      )}
+
+      {/*Menu mobile */}
+      {user && isMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-slate-800 z-50 p-4 shadow-md md:hidden">
+          <ul className="flex flex-col items-center gap-5">
             <li>
               <NavLink
                 to="/"
@@ -76,24 +107,18 @@ export const Header: FC = () => {
                 className={handleActive}
                 onClick={() => setIsMenuOpen(false)}
               >
-                Categorias
+                Categorías
               </NavLink>
             </li>
+            <li>
+              <button className="btn btn-red w-full" onClick={() => signout()}>
+                <span>Cerrar sesión</span>
+                <FaSignOutAlt />
+              </button>
+            </li>
           </ul>
-        </nav>
+        </div>
       )}
-
-      {/*Logout */}
-      <div
-        className={`${isMenuOpen ? 'mt-4 w-full flex flex-col items-center ' : 'hidden'} md:block md:mt-0 md:w-auto`}
-      >
-        {user && (
-          <button className="btn btn-red md:w-auto" onClick={() => signout()}>
-            <span>Cerrar sesión</span>
-            <FaSignOutAlt />
-          </button>
-        )}
-      </div>
     </header>
   );
 };
