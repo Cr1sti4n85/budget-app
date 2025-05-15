@@ -28,7 +28,7 @@ import { join } from 'node:path';
       inject: [ConfigService],
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'frontend/dist'),
+      rootPath: join(__dirname, '../..', 'frontend/dist'),
     }),
     UserModule,
     CategoryModule,
