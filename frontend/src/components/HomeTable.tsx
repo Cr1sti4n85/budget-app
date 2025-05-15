@@ -18,8 +18,8 @@ const HomeTable: FC<TransactionTableProps> = ({ limit = 3 }) => {
           <tr>
             <td className="font-bold pb-2">Título</td>
             <td className="font-bold pb-2">Cantidad</td>
-            <td className="font-bold pb-2">Categoría</td>
-            <td className="font-bold pb-2">Fecha</td>
+            <td className="font-bold pb-2 hidden md:table-cell">Categoría</td>
+            <td className="font-bold pb-2 hidden md:table-cell">Fecha</td>
           </tr>
         </thead>
         <tbody>
@@ -37,8 +37,10 @@ const HomeTable: FC<TransactionTableProps> = ({ limit = 3 }) => {
                   ? `+${formatCurrency.format(transaction.amount)}`
                   : `-${formatCurrency.format(transaction.amount)}`}
               </td>
-              <td>{transaction.category.title}</td>
-              <td className="invisible md:visible">
+              <td className="hidden md:table-cell">
+                {transaction.category.title}
+              </td>
+              <td className="hidden md:table-cell">
                 {dateFormatter(transaction.createdAt)}
               </td>
             </tr>

@@ -54,26 +54,41 @@ const Home: FC = () => {
         </div>
       )}
 
-      <div className="bg-slate-800 flex gap-3 justify-around w-full m-auto py-8 my-4">
+      <div
+        className="bg-slate-800 rounded-md flex flex-col lg:flex-row gap-3 
+      justify-around w-full m-auto py-8 my-4"
+      >
         {maxIncome && maxExpense && dayWithMostTransactions ? (
           <>
-            <div className="text-center flex flex-col gap-2">
-              <h3 className=" text-2xl">Mayor ingreso</h3>
-              <p className="">{maxIncome.title}</p>
-              <p className="text-green-500">${maxIncome.amount}</p>
-              <p className="">{dateFormatter(maxIncome.createdAt)}</p>
+            <div className="text-center flex flex-col items-center gap-2">
+              <h3 className="text-lg md:text-2xl">Mayor ingreso</h3>
+              <div className="bg-slate-700 py-2 w-50 rounded-2xl">
+                <p className="">{maxIncome.title.toUpperCase()}</p>
+                <p className="text-green-500">${maxIncome.amount}</p>
+                <p className="">{dateFormatter(maxIncome.createdAt)}</p>
+              </div>
             </div>
-            <div className="text-center flex flex-col gap-2">
-              <h3 className=" text-2xl">Mayor gasto</h3>
-              <p className="text-center">{maxExpense.title.toUpperCase()}</p>
-              <p className="text-red-500">${maxExpense.amount}</p>
-              <p className="">{dateFormatter(maxExpense.createdAt)}</p>
+            <div className="text-center flex flex-col items-center gap-2">
+              <h3 className="text-lg md:text-2xl">Mayor gasto</h3>
+              <div className="bg-slate-700 py-2 w-50 rounded-2xl">
+                <p className="text-center">{maxExpense.title.toUpperCase()}</p>
+                <p className="text-red-500">${maxExpense.amount}</p>
+                <p className="">{dateFormatter(maxExpense.createdAt)}</p>
+              </div>
             </div>
-            <div className="text-center flex flex-col gap-2">
-              <h3 className=" text-2xl">Mayor cantidad de transacciones</h3>
-              <p className="">{dayWithMostTransactions.total}</p>
-              <p className="">{dateFormatter(dayWithMostTransactions.date)}</p>
-              <p className="">{`${dayWithMostTransactions.ganancias} ganancias | ${dayWithMostTransactions.gastos} gastos`}</p>
+            <div className="text-center flex flex-col items-center gap-2">
+              <h3 className="text-lg md:text-2xl">
+                Mayor cantidad de transacciones
+              </h3>
+              <div className="bg-slate-700 py-2 w-50 rounded-2xl">
+                <p className="">{dayWithMostTransactions.total}</p>
+                <p className="">
+                  {dateFormatter(dayWithMostTransactions.date)}
+                </p>
+                <p className="">
+                  {`${dayWithMostTransactions.ganancias} ganancias | ${dayWithMostTransactions.gastos} gastos`}
+                </p>
+              </div>
             </div>
           </>
         ) : (

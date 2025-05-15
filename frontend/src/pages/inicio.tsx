@@ -1,14 +1,24 @@
+import { useState } from 'react';
 import { Link } from 'react-router';
-import { FaChartLine, FaUser } from 'react-icons/fa';
-import financeImage from '../assets/img/budget.jpg'; // Asegúrate de tener esta imagen o reemplázala
+import { FaBars, FaChartLine, FaTimes, FaUser } from 'react-icons/fa';
+import financeImage from '../assets/img/budget.jpg';
 
 export const HomePage = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-slate-900 text-white flex flex-col">
-      {/* Header con botones de navegación */}
-      <header className="bg-slate-800 p-4 flex justify-between items-center shadow-md">
+      <header className="bg-slate-800 p-4 flex justify-between items-center shadow-md relative">
         <h1 className="text-2xl font-bold">Budget App</h1>
-        <nav className="flex gap-4">
+        {/* Botón de menú hamburguesa (solo visible en móvil) */}
+        <button
+          className="text-white text-2xl md:hidden"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <FaTimes /> : <FaBars />}
+        </button>
+        <nav className="hidden md:flex gap-4">
           <Link
             to="/"
             className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition-colors"
@@ -24,11 +34,30 @@ export const HomePage = () => {
             Iniciar Sesión
           </Link>
         </nav>
+        {/* Menú desplegable para móvil */}
+        {isOpen && (
+          <div className="absolute top-full left-0 w-full bg-slate-800 flex flex-col items-start gap-2 px-4 py-2 md:hidden z-10">
+            <Link
+              to="/"
+              className="flex items-center justify-center gap-2 hover:bg-slate-700 w-50 m-auto px-4 py-2 rounded-lg text-white"
+              onClick={() => setIsOpen(false)}
+            >
+              <FaChartLine />
+              Dashboard
+            </Link>
+            <Link
+              to="/auth"
+              className="flex items-center justify-center gap-2 hover:bg-slate-700 w-50 m-auto px-4 py-2 rounded-lg text-white"
+              onClick={() => setIsOpen(false)}
+            >
+              <FaUser />
+              Iniciar Sesión
+            </Link>
+          </div>
+        )}
       </header>
 
-      {/* Contenido principal */}
       <main className="flex-grow flex flex-col md:flex-row items-center justify-center p-8 gap-8">
-        {/* Texto y llamada a la acción */}
         <div className="max-w-md flex flex-col gap-6 text-center md:text-left">
           <h2 className="text-4xl font-bold">
             Toma el control de tus finanzas
@@ -47,7 +76,6 @@ export const HomePage = () => {
           </div>
         </div>
 
-        {/* Imagen ilustrativa */}
         <div className="max-w-md">
           <img
             src={financeImage}
@@ -57,7 +85,6 @@ export const HomePage = () => {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="bg-slate-800 p-4 text-center text-slate-400">
         <p>
           © {new Date().getFullYear()} Budget App - Todos los derechos
