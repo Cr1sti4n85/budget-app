@@ -92,7 +92,11 @@ const Home: FC = () => {
             </div>
           </>
         ) : (
-          <h2>Aun no tienes transacciones para generar estadísticas</h2>
+          <div className="text-center">
+            <h2 className="italic px-3">
+              Aun no tienes transacciones para generar estadísticas
+            </h2>
+          </div>
         )}
       </div>
     </>

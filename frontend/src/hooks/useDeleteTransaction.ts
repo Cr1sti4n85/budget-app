@@ -17,6 +17,9 @@ export const useDeleteTransaction = (transactionId: string) => {
 
       await Promise.all([
         queryClient.invalidateQueries({
+          queryKey: [QueryKeys.TRANSACTION],
+        }),
+        queryClient.invalidateQueries({
           queryKey: [QueryKeys.TRANSACTION_PAGINATED],
         }),
         queryClient.invalidateQueries({

@@ -17,6 +17,9 @@ const Transactions: FC = () => {
     TransactionType.GANANCIAS,
   );
 
+  const transactionsExist: boolean =
+    transactionsIncome !== 0 || transactionsExpense !== 0;
+
   return (
     <>
       <div className="mt-4 grid grid-cols-1 lg:grid-cols-3 items-start gap-4">
@@ -29,7 +32,7 @@ const Transactions: FC = () => {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <p className="flex uppercase text-md font-bold text-center">
-                Ganancia total:
+                Ganancias:
               </p>
               <p className="bg-green-600 mt-2 rounded-sm p-1 text-center">
                 {transactionsIncome
@@ -39,7 +42,7 @@ const Transactions: FC = () => {
             </div>
             <div>
               <p className="flex uppercase text-md font-bold text-center">
-                Gasto total:
+                Gastos:
               </p>
               <p className="bg-red-600 mt-2 rounded-sm p-1 text-center">
                 {transactionsExpense
@@ -49,13 +52,16 @@ const Transactions: FC = () => {
             </div>
           </div>
           {/*Chart */}
-          <Chart
-            totalIncome={transactionsIncome as number}
-            totalExpense={transactionsExpense as number}
-            heigth={250}
-            innerRadius={60}
-            outerRadius={80}
-          />
+
+          {transactionsExist && (
+            <Chart
+              totalIncome={transactionsIncome as number}
+              totalExpense={transactionsExpense as number}
+              heigth={250}
+              innerRadius={60}
+              outerRadius={80}
+            />
+          )}
         </div>
       </div>
       {/*Transactions Table */}

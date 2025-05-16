@@ -15,7 +15,7 @@ const Transaction: FC<TransactionProps> = ({ transaction, index }) => {
 
   return (
     <tr>
-      <td>{index + 1}</td>
+      <td className="hidden md:table-cell">{index + 1}</td>
       <td>{transaction.title}</td>
       <td
         className={
@@ -28,8 +28,8 @@ const Transaction: FC<TransactionProps> = ({ transaction, index }) => {
           ? `+${formatCurrency.format(transaction.amount)}`
           : `-${formatCurrency.format(transaction.amount)}`}
       </td>
-      <td>{transaction.category.title}</td>
-      <td className="invisible md:visible">
+      <td className="hidden md:table-cell">{transaction.category.title}</td>
+      <td className="hidden md:table-cell">
         {dateFormatter(transaction.createdAt)}
       </td>
       <td>

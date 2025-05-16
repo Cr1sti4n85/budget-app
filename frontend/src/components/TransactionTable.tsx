@@ -55,11 +55,11 @@ const TransactionTable: FC<TransactionTableProps> = ({ limit = 3 }) => {
         <table className="w-full ">
           <thead>
             <tr>
-              <td className="font-bold">N° </td>
+              <td className="font-bold hidden md:table-cell">N° </td>
               <td className="font-bold">Título</td>
               <td className="font-bold">Cantidad</td>
-              <td className="font-bold">Categoría</td>
-              <td className="font-bold invisible md:visible">Fecha</td>
+              <td className="font-bold hidden md:table-cell">Categoría</td>
+              <td className="font-bold hidden md:table-cell">Fecha</td>
               <td className="text-right">Acción</td>
             </tr>
           </thead>

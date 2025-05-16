@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { FaBars, FaChartLine, FaTimes, FaUser } from 'react-icons/fa';
-import financeImage from '../assets/img/budget.jpg';
+import financeImage from '../assets/img/budget.webp';
 
 export const HomePage = () => {
   const [isOpen, setIsOpen] = useState(false);

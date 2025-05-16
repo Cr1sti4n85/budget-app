@@ -142,16 +142,11 @@ export class TransactionService {
       },
     });
 
-    if (!transactions || transactions.length === 0) {
-      throw new NotFoundException(
-        'No se encontraron transacciones de este tipo.',
-      );
-    }
-
     const total = transactions.reduce(
       (accumulator, transaction) => accumulator + transaction.amount,
       0,
     );
+
     return total;
   }
 
