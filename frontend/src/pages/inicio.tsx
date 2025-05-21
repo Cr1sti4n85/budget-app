@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { FaBars, FaChartLine, FaTimes, FaUser } from 'react-icons/fa';
+import transactionsImage from '../assets/img/budget.webp';
 
 export const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const imgSrc = '/src/assets/img/budget.webp';
-
   useEffect(() => {
     let loadedCount = 0;
     const img = new Image();
-    img.src = imgSrc;
+    img.src = transactionsImage;
     img.onload = handleImageLoad;
     img.onerror = handleImageLoad;
 
@@ -103,7 +102,7 @@ export const HomePage = () => {
 
         <div className="max-w-md">
           <img
-            src={imgSrc}
+            src={transactionsImage}
             alt="Control de finanzas personales"
             className="rounded-lg shadow-xl"
           />
