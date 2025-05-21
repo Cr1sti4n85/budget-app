@@ -49,6 +49,7 @@ const Home: FC = () => {
 
           <div className="">
             <h2 className="my-5 text-center text-3xl">Últimos movimientos</h2>
+
             <HomeTable limit={8} />
           </div>
         </div>

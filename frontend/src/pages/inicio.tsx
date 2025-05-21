@@ -1,10 +1,35 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { FaBars, FaChartLine, FaTimes, FaUser } from 'react-icons/fa';
-import financeImage from '../assets/img/budget.webp';
 
 export const HomePage = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const imgSrc = '/src/assets/img/budget.webp';
+
+  useEffect(() => {
+    let loadedCount = 0;
+    const img = new Image();
+    img.src = imgSrc;
+    img.onload = handleImageLoad;
+    img.onerror = handleImageLoad;
+
+    function handleImageLoad() {
+      loadedCount++;
+      if (loadedCount === 1) {
+        setIsLoading(false);
+      }
+    }
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-slate-900">
+        <span className="loader"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex flex-col">
@@ -78,7 +103,7 @@ export const HomePage = () => {
 
         <div className="max-w-md">
           <img
-            src={financeImage}
+            src={imgSrc}
             alt="Control de finanzas personales"
             className="rounded-lg shadow-xl"
           />
